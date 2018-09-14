@@ -11,12 +11,24 @@ and open the template in the editor.
 #FormHead{
     color: #3578cd;    /*hex color teal*/
     display: block;
+    margin-left: 10px;
+    font-size: 200%;
+    font-family: Calibri;
+}
+
+.SignupForm{
+   border-collapse: separate; 
+   border-spacing: 1px;
+   
+}
+
+.FormElement{
+    font-family: Calibri;
+    padding-top: .5em;
     margin-left: .5em;
-    font-size: 100%;
     
 }
-.FormElement{
-    padding-top: 1em;
-    margin-left: .5em;
-    
+.FormInput{
+    font-family: Calibri;
+   margin: 10px;
 }
