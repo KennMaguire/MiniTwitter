@@ -16,6 +16,14 @@ and open the template in the editor.
     font-family: Calibri;
 }
 
+.notVisible{
+    Display: none;
+    
+    
+}
+.errorspan{
+    display: none;
+}
 .SignupForm{
    border-collapse: separate; 
    border-spacing: 1px;
@@ -29,6 +37,6 @@ and open the template in the editor.
     
 }
 .FormInput{
-    font-family: Calibri;
+   font-family: Calibri;
    margin: 10px;
 }

@@ -15,36 +15,38 @@ and open the template in the editor.
     </head>
     <body>
         <h1 id ="FormHead">Sign Up for MiniTwitter!</h1>
-        <form action="Registration" method="get">
+        
+        <form action="test" method="get" onsubmit="return validateForm()">  <!--Change Registration in this line to give another page submission -->
+            <div id="errorMessage" class="notVisible"></div>
             <table class="SignupForm">
                 <tr>
                     <td><label class="FormElement">Full Name:</label> </td>
-                    <td><input type="text" class="FormInput" name="fullName" required><br> </td>
+                    <td><input type="text" class="FormInput" name="fullName" required><span id="fullName_error" class="notVisible">*</span> <br></td>
                 </tr>
                 
                 <tr>
                     <td> <label class="FormElement">Email:</label> </td>
-                    <td><input type="email" class="FormInput" name="email" required><br> </td>
+                    <td><input type="email" class="FormInput" name="email" required><span id="email_error" class="notVisible">*</span><br> </td>
                 </tr>
                 
                 <tr>
                     <td> <label class="FormElement">Username:</label> </td>
-                    <td> <input type="text" class="FormInput" name="userName" required><br> </td>
+                    <td> <input type="text" class="FormInput" name="userName" required><span id="userName_error" class="notVisible">*</span><br> </td>
                 </tr>
                 
                 <tr>
                     <td> <label class="FormElement">Password:</label> </td>
-                    <td> <input type="password" class="FormInput" name="password" required><br> </td>
+                    <td> <input type="password" class="FormInput" name="password" required><span id="password_error" class="notVisible">*</span><br> </td>
                 </tr>
                 
                 <tr>
                     <td> <label class="FormElement">Confirm Password:</label> </td>
-                    <td> <input type="password" class="FormInput" name="confirmPassword" required><br> </td>
+                    <td> <input type="password" class="FormInput" name="confirmPassword" required><span id="confirmPassword_error" class="notVisible">*</span><br> </td>
                 </tr>
             
                 <tr>
                     <td> <label class="FormElement">Date of Birth:</label> </td>
-                    <td> <input type="date" class="FormInput" name="dateOfBirth" required><br> </td>
+                    <td> <input type="date" class="FormInput" name="dateOfBirth" required><span id="dateOfBirth_error" class="notVisible">*</span><br> </td>
                 </tr>
            
                 <tr>
@@ -53,18 +55,21 @@ and open the template in the editor.
                             <option value="firstPet" selected>your first pet</option>
                             <option value="firstCar">your first car</option>
                             <option value="firstSchool">your first school</option>
-                         </select>
+                         </select> <span id="securityQuestion_error" class="notVisible">*</span>
                     </td>
                 </tr>
                 
                 <tr>
                     <td> <label class="FormElement">Please enter a response:</label> </td>
-                    <td> <input type="text" class="FormInput" name="response" required><br> </td>
+                    <td> <input type="text" class="FormInput" name="response" required><span id="securityResponse_error" class="notVisible">*</span><br> </td>
                 </tr>
                 
                 <tr>
                     <td> <input type="submit" class="FormInput" name="registerAcct" value="Submit" required><br> </td>
                 </tr>
+           <p id ="test">something
+              </p>
+            
             </table>
         </form>
     </body>
