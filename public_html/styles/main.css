@@ -20,11 +20,20 @@ and open the template in the editor.
     Display: none;
     
 }
-.visible{ 
+.divVisible{ 
     font-weight: bold;
     margin-left: 10px;
     Display: block;
     color: #e91b07;
+}
+
+.spanVisible{
+    font-weight: bold;
+    margin-left: 10px;
+    Display: inline;
+    color: #e91b07;
+    
+    
 }
 .errorspan{
     display: none;
