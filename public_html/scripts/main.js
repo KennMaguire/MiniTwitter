@@ -19,17 +19,24 @@ function validateForm()
         var valid = true;
         var formInputs = document.getElementsByClassName("FormInput");
         var i;
-        var testP = document.getElementById("test");
+        var errorDiv = document.getElementById("errorMessage");
         for(i = 0; i < formInputs.length; i++)
         {
             var searchVal;
-            if(formInputs[i].type == "text"){           //used this input statement for testing
-            
+            if(formInputs[i].name !== "securityQuestion" && formInputs[i].name !== "dateOfBirth"){           //used this input statement for testing
             //use regex to check for '
-                    
-            valid = false;
-          
-            testP.innerText = "testing worked";
+            
+
+            var searchStr = formInputs[i].value;
+            var n = searchStr.search("'");
+                if(n !== -1)
+                {
+                    valid = false;
+                    errorDiv.innerHTML = "<p>**INPUT HAS INVALID CHARACTERS**</p>";
+                    errorDiv.className = "visible";
+                    return valid;
+                }
+            
             }
             
             
