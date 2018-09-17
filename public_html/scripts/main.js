@@ -45,7 +45,7 @@ function validateForm()
     {
         var valid = true;                                                                                    //default value true before test loop
         var formInputs = document.getElementsByClassName("FormInput");                                       //get an array of all form inputs
-        var i;           //iterator                                                           
+        var i;                                                                    
                                                 //get errorMessage div object
         for(i = 0; i < formInputs.length; i++)
         {
@@ -68,7 +68,9 @@ function validateForm()
             
             
         }
-        if(valid === true)
+ //for the following: if valid is true, reset the form. This helps when someone has ' once or more, so that if they enter the
+ //correct value, the form returns layout to normal before check 4
+        if(valid === true)  
         {
              for(i = 0; i < formInputs.length; i++)
              {
@@ -80,7 +82,7 @@ function validateForm()
         }
         
         
-        return valid;   
+        return valid;   //returns true or false, 
         
     }
     if(validateForm3() !== true)          //if not valid, return false, if valid, don't return and continue to next function
