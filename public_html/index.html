@@ -22,7 +22,7 @@ and open the template in the editor.
             <table class="SignupForm">
                 <tr>
                     <td><label class="FormElement">Full Name:</label> </td>
-                    <td><input type="text" class="FormInput" name="fullName" required><span id="fullName_error" class="notVisible">*</span> <br></td>
+                    <td><input type="text" class="FormInput" name="fullName" id="fullName_id" required><span id="fullName_error" class="notVisible">*</span> <br></td>
                 </tr>
                 
                 <tr>
@@ -42,7 +42,7 @@ and open the template in the editor.
                 
                 <tr>
                     <td> <label class="FormElement">Confirm Password:</label> </td>
-                    <td> <input type="password" class="FormInput" name="confirmPassword" required><span id="confirmPassword_error" class="notVisible">*</span><br> </td>
+                    <td> <input type="password" class="FormInput" name="confirmPassword" id="confirmPassword_id" required><span id="confirmPassword_error" class="notVisible">*</span><br> </td>
                 </tr>
             
                 <tr>
@@ -52,8 +52,8 @@ and open the template in the editor.
            
                 <tr>
                     <td> <label class="FormElement">Select a security question:</label> </td>
-                    <td> <select name="securityQuestion" class="FormInput" required> 
-                            <option id="notSelectable" disabled selected value>Select Value</option>
+                    <td> <select name="securityQuestion" class="FormInput" onchange="showSecurityQuestionResponse()" required>
+                            <option id="notSelectable"  disabled selected value>Select Value</option>
                             <option value="firstPet">your first pet</option>
                             <option value="firstCar">your first car</option>
                             <option value="firstSchool">your first school</option>
@@ -62,8 +62,8 @@ and open the template in the editor.
                 </tr>
                 
                 <tr>
-                    <td> <label class="FormElement">Please enter a response:</label> </td>
-                    <td> <input type="text" class="FormInput" name="response" required><span id="response_error" class="notVisible">*</span><br> </td>
+                    <td> <label id="securityQuestionPrompt_id" class="notVisible">Please enter a response:</label> </td>
+                    <td> <input type="text" class="notVisible" name="response" id="securityQuestionAnswer_id" required><span id="response_error" class="notVisible">*</span><br> </td>
                 </tr>
                 
                 <tr>

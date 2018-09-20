@@ -34,11 +34,55 @@ function resetDivAndSpan(_inputName)
 function validateForm()
 {
     //part1 Daniel
-    
+    function validateForm1(){
+        var valid = true;
+        
+        var passwordObj = document.getElementById("password_id");
+        var confirmPasswordObj = document.getElementById("confirmPassword_id");
+        
+        var password = passwordObj.value;
+        var confirmPassword = confirmPasswordObj.value;
+        
+        if (password === confirmPassword) {
+            return valid;
+        }
+        valid = false;
+        // code to print error
+        
+        var errorHtml = "<p>error! password and confirm password do not match!</p>";
+        makeDivErrorVisible(errorHtml);
+        makeSpanErrorVisible(passwordObj.name);
+        makeSpanErrorVisible(confirmPasswordObj.name);
+        passwordObj.style.backgroundColor = "yellow";
+        confirmPasswordObj.style.backgroundColor = "yellow";
+        return valid;    
+    }
+    if(validateForm1() !== true)          //if not valid, return false, if valid, don't return and continue to next function
+    {
+        return validateForm1();
+    }
     
     //part2 Daniel
-    
-    
+    function validateForm2() {
+        var valid = true;
+        
+        var fullNameObj = document.getElementById("fullName_id");
+        var fullName = fullNameObj.value;
+        
+        if (fullName.includes(" ")) {
+            return valid;
+        }
+        valid = false;
+        var errorHtml = "<p>full name is not valid</p>";
+        makeDivErrorVisible(errorHtml);
+        makeSpanErrorVisible(fullNameObj.name);
+        fullNameObj.style.backgroundColor = "yellow";
+        return valid;
+    }
+    if(validateForm2() !== true)          //if not valid, return false, if valid, don't return and continue to next function
+    {
+        return validateForm2();
+    }
     
     //part3 Kenn
     function validateForm3()
@@ -82,9 +126,6 @@ function validateForm()
             
         }
 
-         
-        
-        
         return valid;   //returns true or false, 
         
     }
@@ -130,17 +171,17 @@ function validateForm()
             valid = false;               //set false if 
         }
         
-        
-          
-        
-             
-        
-        
-        
-        
         return valid;
         
     }
     return validateForm4();         //if it makes it to this point, it should always return either true or false
     
+}
+
+function showSecurityQuestionResponse() {
+    var prompt = document.getElementById("securityQuestionPrompt_id");
+    var answer = document.getElementById("securityQuestionAnswer_id");
+    
+    prompt.className = "FormElement";
+    answer.className = "FormInput";
 }
