@@ -171,17 +171,17 @@ function validateForm()
             valid = false;               //set false if 
         }
         
-        
-          
-        
-             
-        
-        
-        
-        
         return valid;
         
     }
     return validateForm4();         //if it makes it to this point, it should always return either true or false
     
+}
+
+function showSecurityQusetionResponse() {
+    var prompt = document.getElementById("securityQuestionPrompt_id");
+    var answer = document.getElementById("securityQuestionAnswer_id");
+    
+    prompt.className = "FormElement";
+    answer.className = "FormInput";
 }
