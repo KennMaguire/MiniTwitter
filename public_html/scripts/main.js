@@ -178,7 +178,7 @@ function validateForm()
     
 }
 
-function showSecurityQusetionResponse() {
+function showSecurityQuestionResponse() {
     var prompt = document.getElementById("securityQuestionPrompt_id");
     var answer = document.getElementById("securityQuestionAnswer_id");
     
