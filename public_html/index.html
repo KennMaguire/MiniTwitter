@@ -14,6 +14,7 @@ and open the template in the editor.
         </script>
     </head>
     <body>
+        <div id="pagewrap">
         <h1 id ="FormHead">Sign Up for MiniTwitter!</h1>
         
         <form action="index.html" method="get" onsubmit="return validateForm()">  <!--Change Registration in this line to give another page submission -->
@@ -51,8 +52,9 @@ and open the template in the editor.
            
                 <tr>
                     <td> <label class="FormElement">Select a security question:</label> </td>
-                    <td> <select name="securityQuestion" class="FormInput"> 
-                            <option value="firstPet" selected>your first pet</option>
+                    <td> <select name="securityQuestion" class="FormInput" required> 
+                            <option id="notSelectable" disabled selected value>Select Value</option>
+                            <option value="firstPet">your first pet</option>
                             <option value="firstCar">your first car</option>
                             <option value="firstSchool">your first school</option>
                          </select> <span id="securityQuestion_error" class="notVisible">*</span>
@@ -69,5 +71,6 @@ and open the template in the editor.
                 </tr>
             </table>
         </form>
+        </div>
     </body>
 </html>

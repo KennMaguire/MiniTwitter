@@ -90,7 +90,20 @@ function validateForm()
         var valid = true;                                                                                    //default value true before test loop
         var formInputs = document.getElementsByClassName("FormInput");                                       //get an array of all form inputs
         var i;                                                                    
-                                                //get errorMessage div object
+         
+         //for the following: if valid is true, reset the form. This helps when someone has ' once or more, so that if they enter the
+         //correct value, the form returns layout to normal before checking again, checking all other checks, or if they fix certain boxes but not others
+        
+             for(i = 0; i < formInputs.length; i++)
+             {
+                var inputName = formInputs[i].name;
+                resetDivAndSpan(inputName);
+                formInputs[i].style.backgroundColor = "rgba(157, 212, 224, 0.38)";
+        
+             }
+        
+        
+        //get errorMessage div object
         for(i = 0; i < formInputs.length; i++)
         {
             if(formInputs[i].name !== "securityQuestion" && formInputs[i].name !== "dateOfBirth"){           //if any type of text (including email)
@@ -112,20 +125,7 @@ function validateForm()
             
             
         }
-        //for the following: if valid is true, reset the form. This helps when someone has ' once or more, so that if they enter the
-        //correct value, the form returns layout to normal before check 4
-        if(valid === true)  
-        {
-             for(i = 0; i < formInputs.length; i++)
-             {
-                var inputName = formInputs[i].name;
-                resetDivAndSpan(inputName);
-                formInputs[i].style.backgroundColor = "transparent";
-        
-             }
-        }
-        
-        
+
         return valid;   //returns true or false, 
         
     }
@@ -146,6 +146,15 @@ function validateForm()
         var upperC = false;
         var numC = false;
         
+        
+        
+        var inputName = pwordObj.name;              //reset all boxes before test
+        resetDivAndSpan(inputName);
+        pwordObj.style.backgroundColor = "rgba(157, 212, 224, 0.38)";
+        
+        
+        
+        
         lowerC = /[a-z]+/.test(pword);              //regex for lowercase [a-z] + means one or more
         upperC = /[A-Z]+/.test(pword);              //regex for uppercase [A-Z]
         numC = /\d+/.test(pword);                   //regex for digit     \d
@@ -161,6 +170,14 @@ function validateForm()
             pwordObj.style.backgroundColor = "yellow"; 
             valid = false;               //set false if 
         }
+        
+        
+          
+        
+             
+        
+        
+        
         
         return valid;
         

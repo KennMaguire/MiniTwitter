@@ -8,6 +8,11 @@ and open the template in the editor.
     Author     : kennethmaguire
 */
 
+#pagewrap{
+    margin: 0 auto;
+    width: 800px;
+}
+
 #FormHead{
     color: #3578cd;    /*hex color teal*/
     display: block;
@@ -51,6 +56,24 @@ and open the template in the editor.
     
 }
 .FormInput{
-   font-family: Calibri;
+   font-family: Tahoma;
+   background-color: rgba(157, 212, 224, 0.38);
+   border: slategrey solid 1px;
+   border-radius: 2px;
+   font-size: 10px;
    margin: 10px;
+   width: 100px;
+   height: 20px;
+  
+}
+.FormInputSubmit{
+   font-family: Tahoma;
+   background-color: rgba(157, 212, 224, 0.38);
+   border: slategrey solid 1px;
+   border-radius: 2px;
+   font-size: 10px;
+   margin: 10px;
+   width: 100px;
+   height: 20px;
+  
 }
