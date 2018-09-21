@@ -21,6 +21,24 @@ function makeDivErrorVisible(_errorHtml)
     
     
 }
+function resetFormForChecks()
+{
+      var formInputs = document.getElementsByClassName("FormInput");                                       //get an array of all form inputs
+      var i;  
+        
+      for(i = 0; i < formInputs.length; i++)
+      {
+        var inputName = formInputs[i].name;
+        resetDivAndSpan(inputName);
+        formInputs[i].style.backgroundColor = "rgba(157, 212, 224, 0.38)";
+        
+      }
+    
+    
+    
+    
+    
+}
 //This function can be used to reset the form after fixing errors before the next error test
 function resetDivAndSpan(_inputName)
 {
@@ -43,13 +61,15 @@ function validateForm()
         var password = passwordObj.value;
         var confirmPassword = confirmPasswordObj.value;
         
+        resetFormForChecks();
+
         if (password === confirmPassword) {
             return valid;
         }
         valid = false;
         // code to print error
         
-        var errorHtml = "<p>error! password and confirm password do not match!</p>";
+        var errorHtml = "<p>Error! Password and confirm password do not match!</p>";
         makeDivErrorVisible(errorHtml);
         makeSpanErrorVisible(passwordObj.name);
         makeSpanErrorVisible(confirmPasswordObj.name);
@@ -68,12 +88,15 @@ function validateForm()
         
         var fullNameObj = document.getElementById("fullName_id");
         var fullName = fullNameObj.value;
+      
+      
+        resetFormForChecks();
         
         if (fullName.includes(" ")) {
             return valid;
         }
         valid = false;
-        var errorHtml = "<p>full name is not valid</p>";
+        var errorHtml = "<p>Full name is not valid</p>";
         makeDivErrorVisible(errorHtml);
         makeSpanErrorVisible(fullNameObj.name);
         fullNameObj.style.backgroundColor = "yellow";
@@ -94,13 +117,7 @@ function validateForm()
          //for the following: if valid is true, reset the form. This helps when someone has ' once or more, so that if they enter the
          //correct value, the form returns layout to normal before checking again, checking all other checks, or if they fix certain boxes but not others
         
-             for(i = 0; i < formInputs.length; i++)
-             {
-                var inputName = formInputs[i].name;
-                resetDivAndSpan(inputName);
-                formInputs[i].style.backgroundColor = "rgba(157, 212, 224, 0.38)";
-        
-             }
+        resetFormForChecks();
         
         
         //get errorMessage div object
@@ -116,7 +133,7 @@ function validateForm()
                     valid = false;                                                      //make input invalid
                    
                     formInputs[i].style.backgroundColor = "yellow";                     //change background of text box to yellow
-                    var errorHtml = "<p>**INPUT HAS INVALID CHARACTERS**</p>";
+                    var errorHtml = "<p>Input has invalid characters!</p>";
                     makeDivErrorVisible(errorHtml);
                     
                 }
@@ -145,16 +162,9 @@ function validateForm()
         var lowerC = false;
         var upperC = false;
         var numC = false;
-        
-        
-        
-        var inputName = pwordObj.name;              //reset all boxes before test
-        resetDivAndSpan(inputName);
-        pwordObj.style.backgroundColor = "rgba(157, 212, 224, 0.38)";
-        
-        
-        
-        
+        resetFormForChecks();
+
+
         lowerC = /[a-z]+/.test(pword);              //regex for lowercase [a-z] + means one or more
         upperC = /[A-Z]+/.test(pword);              //regex for uppercase [A-Z]
         numC = /\d+/.test(pword);                   //regex for digit     \d
@@ -163,7 +173,7 @@ function validateForm()
         
         if(lowerC === false || upperC === false || numC === false)
         {
-            var errorHtml = "<p>***Password must contain the following minimum chars: 1 lower case, 1 upper case, and 1 digit***</p>";
+            var errorHtml = "<p>Password must contain the following minimum chars: 1 lower case, 1 upper case, and 1 digit</p>";
             makeDivErrorVisible(errorHtml);
             var pwordName = pwordObj.name;
             makeSpanErrorVisible(pwordName);
