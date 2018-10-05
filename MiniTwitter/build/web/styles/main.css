@@ -1,0 +1,79 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Sep 13, 2018, 9:33:59 PM
+    Author     : kennethmaguire
+*/
+
+#pagewrap{
+    margin: 0 auto;
+    width: 400px;
+}
+
+#FormHead{
+    color: #3578cd;    /*hex color teal*/
+    display: block;
+    margin-left: 10px;
+    font-size: 200%;
+    font-family: Calibri;
+}
+
+.notVisible{
+    Display: none;
+    
+}
+.divVisible{ 
+    font-weight: bold;
+    margin-left: 10px;
+    Display: block;
+    color: #e91b07;
+}
+
+.spanVisible{
+    font-weight: bold;
+    margin-left: 10px;
+    Display: inline;
+    color: #e91b07;
+    
+    
+}
+.errorspan{
+    display: none;
+}
+.SignupForm{
+   border-collapse: separate; 
+   border-spacing: 1px;
+   
+}
+
+.FormElement{
+    font-family: Calibri;
+    padding-top: .5em;
+    margin-left: .5em;
+    
+}
+.FormInput{
+   font-family: Tahoma;
+   background-color: rgba(157, 212, 224, 0.38);
+   border: slategrey solid 1px;
+   border-radius: 2px;
+   font-size: 10px;
+   margin: 10px;
+   width: 150px;
+   height: 20px;
+  
+}
+.FormInputSubmit{
+   font-family: Tahoma;
+   background-color: rgba(157, 212, 224, 0.38);
+   border: slategrey solid 1px;
+   border-radius: 2px;
+   font-size: 10px;
+   margin: 10px;
+   width: 100px;
+   height: 20px;
+  
+}
