@@ -17,8 +17,9 @@ and open the template in the editor.
         <div id="pagewrap">
         <h1 id ="FormHead">Sign Up for MiniTwitter!</h1>
         
-        <form action="index.html" method="post" onsubmit="return validateForm()">  <!--Change Registration in this line to give another page submission -->
+        <form action="signup" method="post" onsubmit="return validateForm()">  <!--Change Registration in this line to give another page submission -->
             <div id="errorMessage" class="notVisible"></div>
+            <input type="hidden" name="action" value="add">
             <table class="SignupForm">
                 <tr>
                     <td><label class="FormElement">Full Name:</label> </td>

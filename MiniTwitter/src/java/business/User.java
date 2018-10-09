@@ -15,7 +15,12 @@ public class User implements Serializable {
     
     //define set/get methods for all attributes.
     private String fullName;
+    private String userName;
     private String email;
+    private String password;
+    private String birthDate;
+    private String questionNo;
+    private String answer;
     public User()
     {
         fullName = "";
@@ -25,7 +30,14 @@ public class User implements Serializable {
     {
         String[] data = fromString.replace("[", "").split(",");
         this.setFullName(data[0]);
-        this.setEmail(data[1]);
+        this.setUserName(data[1]);
+        this.setEmail(data[2]);
+        this.setPassword(data[3]);
+        this.setBirthDate(data[4]);
+        this.setQuestionNo(data[5]);
+        this.setAnswer(data[6]);
+    
+        
     }
     public String getFullName()
     {
@@ -35,6 +47,14 @@ public class User implements Serializable {
     {
         this.fullName = fullName;
     }
+    public String getUserName()
+    {
+        return this.userName;
+    }
+    public void setUserName(String userName)
+    {
+        this.userName = userName;
+    }
     public String getEmail()
     {
         return this.email;
@@ -42,6 +62,38 @@ public class User implements Serializable {
     public void setEmail(String email)
     {
         this.email = email;
+    }
+    public String getPassword()
+    {
+        return this.password;
+    }
+    public void setPassword(String password)
+    {
+        this.password = password;
+    }
+    public String getBirthDate()
+    {
+        return this.birthDate;
+    }
+    public void setBirthDate(String birthDate)
+    {
+        this.birthDate = birthDate;
+    }
+    public String getQuestionNo()
+    {
+        return this.questionNo;
+    }
+    public void setQuestionNo(String questionNo)
+    {
+        this.questionNo = questionNo;
+    }
+    public String getAnswer()
+    {
+        return this.answer;
+    }
+    public void setAnswer(String answer)
+    {
+        this.answer = answer;
     }
     @Override
     public String toString()

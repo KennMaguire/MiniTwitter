@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-//@WebServlet(name = "membershipServlet", urlPatterns = {"/membership"})
+@WebServlet(name = "membershipServlet", urlPatterns = {"/membership"})
 public class membershipServlet extends HttpServlet {
 
     /**
@@ -28,14 +28,45 @@ public class membershipServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
    @Override
    protected void doPost(HttpServletRequest request, HttpServletResponse response)
            throws ServletException, IOException {
        
     //   String action = request.getParameter("action");
        String url = "/signup.jsp";
-      
+       String action = request.getParameter("action");
+       if(action.equals("add"))
+       {
+          User user = new User();
+          
+          String fullName = request.getParameter("fullName");
+          String userName = request.getParameter("userName");
+          String email = request.getParameter("email");
+          String password = request.getParameter("password");
+          String birthDate = request.getParameter("birthDate");        //TODO Finish here
+          String questionNo = request.getParameter("questionNo");
+          String answer = request.getParameter("answer");
+           
+          url = "/home.jsp";
+          
+          user.setFullName(fullName);
+          user.setUserName(userName);
+          user.setEmail(email);
+          user.setPassword(password);
+          user.setBirthDate(birthDate);
+          user.setQuestionNo(questionNo);
+          user.setAnswer(answer);
+          
+          // store User object in request
+          request.setAttribute("user", user);
+          
+          UserDB.insert(user);
+          
        
+          
+          
+       }
        
        
        
@@ -52,36 +83,7 @@ public class membershipServlet extends HttpServlet {
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-        
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-        
-    }
-
+   
     /**
      * Returns a short description of the servlet.
      *
