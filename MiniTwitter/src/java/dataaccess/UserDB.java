@@ -30,7 +30,7 @@ public class UserDB {
             Connection connection = DriverManager.getConnection(
                     dbURL, username, password);
             //create query
-            String query = " insert into users (fullname, username, emailAddress, password, birthdate, questionNo, answer)" 
+            String query = " insert into twitterdb.user (fullname, username, emailAddress, password, birthdate, questionNo, answer)" 
                     + " value (?, ?, ?, ?, ?, ?, ?)";
                              //1, 2, 3, 4, 5, 6, 7  
             //Create a prepared statement

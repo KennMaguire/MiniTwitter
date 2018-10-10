@@ -17,7 +17,7 @@ and open the template in the editor.
         <div id="pagewrap">
         <h1 id ="FormHead">Sign Up for MiniTwitter!</h1>
         
-        <form action="signup" method="post" onsubmit="return validateForm()">  <!--Change Registration in this line to give another page submission -->
+        <form action="membership" method="post" onsubmit="return validateForm()">  <!--Change Registration in this line to give another page submission -->
             <div id="errorMessage" class="notVisible"></div>
             <input type="hidden" name="action" value="add">
             <table class="SignupForm">
@@ -48,23 +48,23 @@ and open the template in the editor.
             
                 <tr>
                     <td> <label class="FormElement">Date of Birth:</label> </td>
-                    <td> <input type="date" class="FormInput" name="dateOfBirth" required><span id="dateOfBirth_error" class="notVisible">*</span><br> </td>
+                    <td> <input type="date" class="FormInput" name="birthDate" required><span id="dateOfBirth_error" class="notVisible">*</span><br> </td>
                 </tr>
            
                 <tr>
                     <td> <label class="FormElement">Select a security question:</label> </td>
-                    <td> <select name="securityQuestion" class="FormInput" onchange="showSecurityQuestionResponse()" required>
+                    <td> <select name="questionNo" class="FormInput" onchange="showSecurityQuestionResponse()" required>
                             <option id="notSelectable"  disabled selected value>Select Value</option>
-                            <option value="firstPet">your first pet</option>
-                            <option value="firstCar">your first car</option>
-                            <option value="firstSchool">your first school</option>
+                            <option value="1">your first pet</option>
+                            <option value="2">your first car</option>
+                            <option value="3">your first school</option>
                          </select> <span id="securityQuestion_error" class="notVisible">*</span>
                     </td>
                 </tr>
                 
                 <tr>
                     <td> <label id="securityQuestionPrompt_id" class="notVisible">Please enter a response:</label> </td>
-                    <td> <input type="text" class="notVisible" name="response" id="securityQuestionAnswer_id" required><span id="response_error" class="notVisible">*</span><br> </td>
+                    <td> <input type="text" class="notVisible" name="answer" id="securityQuestionAnswer_id" required><span id="response_error" class="notVisible">*</span><br> </td>
                 </tr>
                 
                 <tr>
