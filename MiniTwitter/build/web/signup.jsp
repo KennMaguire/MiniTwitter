@@ -19,36 +19,36 @@ and open the template in the editor.
         
         <form action="membership" method="post" onsubmit="return validateForm()">  <!--Change Registration in this line to give another page submission -->
             <div id="errorMessage" class="notVisible"></div>
-            <input type="hidden" name="action" value="add">
+            <input type="hidden" name="action" value="signup">
             <table class="SignupForm">
                 <tr>
                     <td><label class="FormElement">Full Name:</label> </td>
-                    <td><input type="text" class="FormInput" name="fullName" id="fullName_id" required><span id="fullName_error" class="notVisible">*</span> <br></td>
+                    <td><input type="text" class="FormInput" name="fullName" id="fullName_id" value="${user.fullName}"><span id="fullName_error" class="notVisible">*</span> <br></td>
                 </tr>
                 
                 <tr>
                     <td> <label class="FormElement">Email:</label> </td>
-                    <td><input type="email" class="FormInput" name="email" required><span id="email_error" class="notVisible">*</span><br> </td>
+                    <td><input type="email" class="FormInput" name="email" value=${user.email}><span id="email_error" class="notVisible">*</span><br> </td>
                 </tr>
                 
                 <tr>
                     <td> <label class="FormElement">Username:</label> </td>
-                    <td> <input type="text" class="FormInput" name="userName" required><span id="userName_error" class="notVisible">*</span><br> </td>
+                    <td> <input type="text" class="FormInput" name="userName" value=${user.userName} ><span id="userName_error" class="notVisible">*</span><br> </td>
                 </tr>
                 
                 <tr>
                     <td> <label class="FormElement">Password:</label> </td>
-                    <td> <input type="password" class="FormInput" name="password" id="password_id" required><span id="password_error" class="notVisible">*</span><br> </td>
+                    <td> <input type="password" class="FormInput" name="password" id="password_id" value=${user.password}><span id="password_error" class="notVisible">*</span><br> </td>
                 </tr>
                 
                 <tr>
                     <td> <label class="FormElement">Confirm Password:</label> </td>
-                    <td> <input type="password" class="FormInput" name="confirmPassword" id="confirmPassword_id" required><span id="confirmPassword_error" class="notVisible">*</span><br> </td>
+                    <td> <input type="password" class="FormInput" name="confirmPassword" id="confirmPassword_id" ><span id="confirmPassword_error" class="notVisible">*</span><br> </td>
                 </tr>
             
                 <tr>
                     <td> <label class="FormElement">Date of Birth:</label> </td>
-                    <td> <input type="date" class="FormInput" name="birthDate" required><span id="dateOfBirth_error" class="notVisible">*</span><br> </td>
+                    <td> <input type="date" class="FormInput" name="birthDate" value=${user.birthDate}><span id="dateOfBirth_error" class="notVisible">*</span><br> </td>
                 </tr>
            
                 <tr>
@@ -64,7 +64,7 @@ and open the template in the editor.
                 
                 <tr>
                     <td> <label id="securityQuestionPrompt_id" class="notVisible">Please enter a response:</label> </td>
-                    <td> <input type="text" class="notVisible" name="answer" id="securityQuestionAnswer_id" required><span id="response_error" class="notVisible">*</span><br> </td>
+                    <td> <input type="text" class="notVisible" name="answer" id="securityQuestionAnswer_id" value=${user.answer}><span id="response_error" class="notVisible">*</span><br> </td>
                 </tr>
                 
                 <tr>

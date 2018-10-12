@@ -13,7 +13,13 @@
     </head>
     <body>
         <header>
-            
+            TEST HEADER
         </header>
+        
+        <p>
+            
+            This is the home.jsp page
+            
+        </p>
     </body>
 </html>

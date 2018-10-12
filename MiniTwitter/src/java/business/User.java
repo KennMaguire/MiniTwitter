@@ -18,6 +18,7 @@ public class User implements Serializable {
     private String userName;
     private String email;
     private String password;
+    private String confirmPassword;
     private String birthDate;
     private String questionNo;
     private String answer;
@@ -36,6 +37,7 @@ public class User implements Serializable {
         this.setBirthDate(data[4]);
         this.setQuestionNo(data[5]);
         this.setAnswer(data[6]);
+        this.setConfirmPassword(data[7]);
     
         
     }
@@ -94,6 +96,15 @@ public class User implements Serializable {
     public void setAnswer(String answer)
     {
         this.answer = answer;
+    }
+    public void setConfirmPassword(String confirmPassword)
+    {
+        this.confirmPassword = confirmPassword;
+        
+    }
+    public String getConfirmPassword(String confirmPassword)
+    {
+        return this.confirmPassword;
     }
     @Override
     public String toString()

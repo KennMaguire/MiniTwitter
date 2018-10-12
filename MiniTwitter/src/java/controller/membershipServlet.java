@@ -15,6 +15,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+
 
 @WebServlet(name = "membershipServlet", urlPatterns = {"/membership"})
 public class membershipServlet extends HttpServlet {
@@ -29,6 +32,15 @@ public class membershipServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     
+    
+    public String returnSignup(String url)
+    {   
+
+        url = "/signup.jsp";
+
+        return url;
+
+    }
    @Override
    protected void doPost(HttpServletRequest request, HttpServletResponse response)
            throws ServletException, IOException {
@@ -36,7 +48,8 @@ public class membershipServlet extends HttpServlet {
     //   String action = request.getParameter("action");
        String url = "/signup.jsp";
        String action = request.getParameter("action");
-       if(action.equals("add"))
+       HttpSession session = request.getSession();
+       if(action.equals("signup"))
        {
           User user = new User();
           
@@ -44,19 +57,40 @@ public class membershipServlet extends HttpServlet {
           String userName = request.getParameter("userName");
           String email = request.getParameter("email");
           String password = request.getParameter("password");
+          String confirmPassword = request.getParameter("confirmPassword");
           String birthDate = request.getParameter("birthDate");        //TODO Finish here
           String questionNo = request.getParameter("questionNo");
           String answer = request.getParameter("answer");
            
-          url = "/home.jsp";
+          String[] userDetails;
+          userDetails = new String[] {fullName, userName, email, password, confirmPassword, birthDate, questionNo, answer};
           
           user.setFullName(fullName);
           user.setUserName(userName);
           user.setEmail(email);
           user.setPassword(password);
+          user.setConfirmPassword(confirmPassword);
           user.setBirthDate(birthDate);
           user.setQuestionNo(questionNo);
           user.setAnswer(answer);
+          
+          
+          for(int i = 0; i < userDetails.length; i++ )
+          {
+               if(userDetails[i].equals("") || userDetails[i].equals(" ") )
+               {
+
+                   request.setAttribute("user", user);
+                   url = returnSignup(url);
+                   getServletContext()
+                   .getRequestDispatcher(url)
+                   .forward(request, response);
+ 
+               }
+          }
+          url = "/home.jsp";
+          
+        
           
           // store User object in request
           request.setAttribute("user", user);
