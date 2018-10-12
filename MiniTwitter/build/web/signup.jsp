@@ -15,6 +15,9 @@ and open the template in the editor.
     </head>
     
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c-rt" %>
+
+
     
     <body>
         <div id="pagewrap">
@@ -22,11 +25,11 @@ and open the template in the editor.
         
         <form action="membership" method="post" onsubmit="return validateForm()">  <!--Change Registration in this line to give another page submission -->
             <div id="errorMessage" class="notVisible"></div>
-            <div id="javaErrorMessage" > 
-                <c:if test="${condition != 0}">
-                    <c:set var="emptyInput" value="$['Full Name', 'User Name', 'Email', 'Password', 'Confirm Password', 'Birth Date', 'Security Question', 'Response']" />
-                    <p> ${emptyInput[condition]} cannot be empty! </p>
-                
+            <div id="javaErrorMessage" class="divVisible" > 
+                <c:if test="${condition}">
+                    <c:forEach items="${emptyInputList}" var="element" >
+                        <p> <c:out value="${element}" /> cannot be empty! </p>
+                    </c:forEach>
                 </c:if> 
             </div>
             <input type="hidden" name="action" value="signup">

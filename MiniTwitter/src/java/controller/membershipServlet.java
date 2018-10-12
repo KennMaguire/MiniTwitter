@@ -7,8 +7,8 @@ package controller;
 
 import business.User;
 import dataaccess.UserDB;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
+import java.util.ArrayList;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -50,7 +50,7 @@ public class membershipServlet extends HttpServlet {
        String url = "/signup.jsp";
        String action = request.getParameter("action");
        HttpSession session = request.getSession();
-       int condition = 0;
+       boolean condition = false;
        if(action.equals("signup"))
        {
           User user = new User();
@@ -77,25 +77,39 @@ public class membershipServlet extends HttpServlet {
           user.setAnswer(answer);
           
           
+          
+          String[] whichEmptyInput = {"Full Name", "User Name", "Email", "Password", "Confirm Password", "Birth Date", "Security Question", "Response" };  
+    
+         
+          ArrayList<String> emptyInputList = new ArrayList<String>();
+          
           for(int i = 0; i < userDetails.length; i++ )
           {
                if(userDetails[i].equals("") || userDetails[i].equals(" ") )
                {
-                   condition = i;
-                   
+                   condition = true;
+                   emptyInputList.add(whichEmptyInput[i]);
                    request.setAttribute("user", user);
                    request.setAttribute("condition", condition);
+                   request.setAttribute("emptyInputList", emptyInputList);
                    url = returnSignup(url);
-                   getServletContext()
-                   .getRequestDispatcher(url)
-                   .forward(request, response);
+                  
  
                }
           }
-          url = "/home.jsp";
-          
         
           
+          //if the input list is not empty, forward request/response
+          if(!emptyInputList.isEmpty())
+          {
+           getServletContext()
+           .getRequestDispatcher(url)
+           .forward(request, response);
+          }
+          
+          
+          
+          url = "/home.jsp";
           // store User object in request
           request.setAttribute("user", user);
           
