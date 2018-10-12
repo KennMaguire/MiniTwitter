@@ -102,7 +102,7 @@ public class User implements Serializable {
         this.confirmPassword = confirmPassword;
         
     }
-    public String getConfirmPassword(String confirmPassword)
+    public String getConfirmPassword()
     {
         return this.confirmPassword;
     }

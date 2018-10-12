@@ -41,6 +41,7 @@ public class membershipServlet extends HttpServlet {
         return url;
 
     }
+   
    @Override
    protected void doPost(HttpServletRequest request, HttpServletResponse response)
            throws ServletException, IOException {
@@ -49,6 +50,7 @@ public class membershipServlet extends HttpServlet {
        String url = "/signup.jsp";
        String action = request.getParameter("action");
        HttpSession session = request.getSession();
+       int condition = 0;
        if(action.equals("signup"))
        {
           User user = new User();
@@ -64,7 +66,7 @@ public class membershipServlet extends HttpServlet {
            
           String[] userDetails;
           userDetails = new String[] {fullName, userName, email, password, confirmPassword, birthDate, questionNo, answer};
-          
+                                     //1        2         3      4         5                6          7           8
           user.setFullName(fullName);
           user.setUserName(userName);
           user.setEmail(email);
@@ -79,8 +81,10 @@ public class membershipServlet extends HttpServlet {
           {
                if(userDetails[i].equals("") || userDetails[i].equals(" ") )
                {
-
+                   condition = i;
+                   
                    request.setAttribute("user", user);
+                   request.setAttribute("condition", condition);
                    url = returnSignup(url);
                    getServletContext()
                    .getRequestDispatcher(url)
