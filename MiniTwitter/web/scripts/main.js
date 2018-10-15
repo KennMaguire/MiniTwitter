@@ -51,6 +51,7 @@ function resetDivAndSpan(_inputName)
 }
 function validateForm()
 {
+    /*
     //part1 Daniel
     function validateForm1(){
         var valid = true;
@@ -81,7 +82,7 @@ function validateForm()
     {
         return validateForm1();
     }
-    
+    */
     //part2 Daniel
     function validateForm2() {
         var valid = true;

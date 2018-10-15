@@ -26,11 +26,17 @@ and open the template in the editor.
         <form action="membership" method="post" onsubmit="return validateForm()">  <!--Change Registration in this line to give another page submission -->
             <div id="errorMessage" class="notVisible"></div>
             <div id="javaErrorMessage" class="divVisible" > 
-                <c:if test="${condition}">
+                <c:if test="${condition1}">
+                    <p> User already exists for email address: <c:out value='${user.email}' /> </p>
+                </c:if>
+                <c:if test="${condition2}">
                     <c:forEach items="${emptyInputList}" var="element" >
                         <p> <c:out value="${element}" /> cannot be empty! </p>
                     </c:forEach>
                 </c:if> 
+                <c:if test="${condition3}">
+                    <p> Password and ConfirmPassword do not match! </p>
+                </c:if>
             </div>
             <input type="hidden" name="action" value="signup">
             <table class="SignupForm">

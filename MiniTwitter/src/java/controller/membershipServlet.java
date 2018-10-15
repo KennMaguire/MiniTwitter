@@ -12,11 +12,10 @@ import java.util.ArrayList;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
+import javax.servlet.http.Cookie.*;
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
 
 
 @WebServlet(name = "membershipServlet", urlPatterns = {"/membership"})
@@ -50,6 +49,7 @@ public class membershipServlet extends HttpServlet {
        String url = "/signup.jsp";
        String action = request.getParameter("action");
        HttpSession session = request.getSession();
+      // Cookie[] cookies = request.getCookies();
        boolean condition = false;
        if(action.equals("signup"))
        {
@@ -64,9 +64,17 @@ public class membershipServlet extends HttpServlet {
           String questionNo = request.getParameter("questionNo");
           String answer = request.getParameter("answer");
            
+          
+          User userCheck = new User();
+          userCheck = UserDB.search(email);
+          
+          
+          
+          
           String[] userDetails;
           userDetails = new String[] {fullName, userName, email, password, confirmPassword, birthDate, questionNo, answer};
                                      //1        2         3      4         5                6          7           8
+         
           user.setFullName(fullName);
           user.setUserName(userName);
           user.setEmail(email);
@@ -77,7 +85,8 @@ public class membershipServlet extends HttpServlet {
           user.setAnswer(answer);
           
           
-          
+       if(!userCheck.getEmail().equals(email) && !userCheck.getUserName().equals(userName))         //before running other tests, make sure user doesn't exist                     
+       {   
           String[] whichEmptyInput = {"Full Name", "User Name", "Email", "Password", "Confirm Password", "Birth Date", "Security Question", "Response" };  
     
          
@@ -90,35 +99,57 @@ public class membershipServlet extends HttpServlet {
                    condition = true;
                    emptyInputList.add(whichEmptyInput[i]);
                    request.setAttribute("user", user);
-                   request.setAttribute("condition", condition);
+                   request.setAttribute("condition2", condition);
                    request.setAttribute("emptyInputList", emptyInputList);
                    url = returnSignup(url);
                   
  
                }
+         
           }
-        
-          
+     
           //if the input list is not empty, forward request/response
-          if(!emptyInputList.isEmpty())
+        
+         
+     
+          if(!password.equals(confirmPassword))
+          {
+              condition = true;
+              url = "/signup.jsp";
+              request.setAttribute("user", user);
+              request.setAttribute("condition3", condition);
+              
+              
+          }
+          
+          if(condition == true)
           {
            getServletContext()
            .getRequestDispatcher(url)
            .forward(request, response);
           }
           
-          
-          
           url = "/home.jsp";
           // store User object in request
           request.setAttribute("user", user);
-          
-          UserDB.insert(user);
-          
+        
+          //if condition isn't ever found, add to DB
+          if(condition != true)
+          {
+            UserDB.insert(user);
+          }
        
-          
-          
+       }  // end of add user if user does not exist
+       else
+       {
+            condition = true;
+            url = "/signup.jsp";     
+            request.setAttribute("user", user);
+            request.setAttribute("condition1", condition);
+                   
+                   
        }
+      }
        
        
        
