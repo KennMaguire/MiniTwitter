@@ -70,7 +70,7 @@ public class UserDB {
         String sqlResult = "";
         
         String query = " select * from twitterdb.user where (emailAddress = ?) ";
-       
+        
         
         try{
         Class.forName("com.mysql.jdbc.Driver");
@@ -89,7 +89,7 @@ public class UserDB {
          
          User user = new User();
         
-         while(rs.next()){
+         while(rs.next()){      //need while for rs.next(), but returns after first user found so only returns one user
          user.setFullName(rs.getString("fullname"));
          user.setUserName(rs.getString("username"));
          user.setEmail(rs.getString("emailAddress"));
@@ -104,6 +104,7 @@ public class UserDB {
          return user;
          }
          
+         /*
          //fill user with empty values if no user in DB
          user.setFullName(" ");
          user.setUserName(" ");
@@ -113,9 +114,9 @@ public class UserDB {
          user.setBirthDate(" ");
          user.setQuestionNo(" ");
          user.setAnswer(" ");
+         */
          
-         
-         return user;
+         return null;
          
          }
         catch (ClassNotFoundException e) {

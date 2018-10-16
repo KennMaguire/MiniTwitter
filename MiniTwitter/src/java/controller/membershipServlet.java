@@ -67,10 +67,7 @@ public class membershipServlet extends HttpServlet {
           
           User userCheck = new User();
           userCheck = UserDB.search(email);
-          
-          
-          
-          
+         
           String[] userDetails;
           userDetails = new String[] {fullName, userName, email, password, confirmPassword, birthDate, questionNo, answer};
                                      //1        2         3      4         5                6          7           8
@@ -85,7 +82,7 @@ public class membershipServlet extends HttpServlet {
           user.setAnswer(answer);
           
           
-       if(!userCheck.getEmail().equals(email) && !userCheck.getUserName().equals(userName))         //before running other tests, make sure user doesn't exist                     
+       if(userCheck == null)         //before running other tests, make sure user doesn't exist                     
        {   
           String[] whichEmptyInput = {"Full Name", "User Name", "Email", "Password", "Confirm Password", "Birth Date", "Security Question", "Response" };  
     
@@ -99,9 +96,9 @@ public class membershipServlet extends HttpServlet {
                    condition = true;
                    emptyInputList.add(whichEmptyInput[i]);
                    request.setAttribute("user", user);
-                   request.setAttribute("condition2", condition);
+                   request.setAttribute("condition2", condition);   //set blank value condition
                    request.setAttribute("emptyInputList", emptyInputList);
-                   url = returnSignup(url);
+                   url = "/signup.jsp";
                   
  
                }
@@ -110,18 +107,17 @@ public class membershipServlet extends HttpServlet {
      
           //if the input list is not empty, forward request/response
         
-         
-     
+    
           if(!password.equals(confirmPassword))
           {
               condition = true;
               url = "/signup.jsp";
               request.setAttribute("user", user);
-              request.setAttribute("condition3", condition);
+              request.setAttribute("condition3", condition);        //set confirm password doesn't match condition
               
               
           }
-          
+          /*
           if(condition == true)
           {
            getServletContext()
@@ -129,13 +125,15 @@ public class membershipServlet extends HttpServlet {
            .forward(request, response);
           }
           
-          url = "/home.jsp";
+          */
           // store User object in request
-          request.setAttribute("user", user);
+        
         
           //if condition isn't ever found, add to DB
           if(condition != true)
           {
+            request.setAttribute("user", user);
+            url = "/home.jsp";
             UserDB.insert(user);
           }
        
@@ -143,13 +141,30 @@ public class membershipServlet extends HttpServlet {
        else
        {
             condition = true;
-            url = "/signup.jsp";     
+            url = "/signup.jsp";  
             request.setAttribute("user", user);
-            request.setAttribute("condition1", condition);
-                   
-                   
+           
+            if(userCheck.getEmail().equals(email)){
+                request.setAttribute("condition1_1", condition);      //set user exists condition for email
+            }       
+            
+            if(userCheck.getUserName().equals(userName)){
+                request.setAttribute("condition1_2", condition);      //set user exists condition for username    
+            }
+       
+            
        }
-      }
+      }         //end signup
+       if(action.equals("login"))
+       {
+           String forgotPassword = request.getParameter("forgotPassword");
+           if(forgotPassword.equals("true"))
+           {
+               url = "forgotPassword.jsp";
+           }
+           
+       }
+       
        
        
        
