@@ -13,7 +13,7 @@
     </head>
     <body>
         <header>
-            TEST HEADER
+            Home Page
         </header>
         
         <p>

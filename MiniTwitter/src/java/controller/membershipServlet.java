@@ -174,11 +174,24 @@ public class membershipServlet extends HttpServlet {
       }         //end signup
        if(action.equals("login"))
        {
-           String forgotPassword = request.getParameter("forgotPassword");
-           if(forgotPassword.equals("true"))
+           String email = request.getParameter("email");
+           String password = request.getParameter("password");
+           User userCheck = UserDB.search(email);
+           condition = false;
+           url = "/login.jsp";
+           if(userCheck != null)
            {
-               url = "forgotPassword.jsp";
+              if(userCheck.getEmail().equals(email) && userCheck.getPassword().equals(password))
+              {
+                  url = "/home.jsp";
+              }
+              else
+              {
+                  condition = true;
+                  request.setAttribute("conditionLogin", condition);
+              }
            }
+           
            
        }
        
