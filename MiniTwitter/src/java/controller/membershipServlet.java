@@ -13,9 +13,9 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie.*;
-import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
+import static java.lang.Integer.parseInt;
 
 
 @WebServlet(name = "membershipServlet", urlPatterns = {"/membership"})
@@ -49,12 +49,13 @@ public class membershipServlet extends HttpServlet {
        String url = "/signup.jsp";
        String action = request.getParameter("action");
        HttpSession session = request.getSession();
-      // Cookie[] cookies = request.getCookies();
+
        boolean condition = false;
+    //   boolean questionNoCond = false;
+  //     String[] questionText = {"your first pet","your first car", "your first school"};
        if(action.equals("signup"))
        {
-          User user = new User();
-          
+          User user = new User(); 
           String fullName = request.getParameter("fullName");
           String userName = request.getParameter("userName");
           String email = request.getParameter("email");
@@ -81,7 +82,7 @@ public class membershipServlet extends HttpServlet {
           user.setQuestionNo(questionNo);
           user.setAnswer(answer);
           
-          
+         
        if(userCheck == null)         //before running other tests, make sure user doesn't exist                     
        {   
           String[] whichEmptyInput = {"Full Name", "User Name", "Email", "Password", "Confirm Password", "Birth Date", "Security Question", "Response" };  
@@ -94,9 +95,12 @@ public class membershipServlet extends HttpServlet {
                if(userDetails[i].equals("") || userDetails[i].equals(" ") )
                {
                    condition = true;
+            //       questionNoCond = true;
                    emptyInputList.add(whichEmptyInput[i]);
                    request.setAttribute("user", user);
                    request.setAttribute("condition2", condition);   //set blank value condition
+            //       request.setAttribute("questionNoCond", questionNoCond);
+              //      request.setAttribute("questionString", questionText[(parseInt(questionNo)-1)]);
                    request.setAttribute("emptyInputList", emptyInputList);
                    url = "/signup.jsp";
                   
@@ -111,8 +115,11 @@ public class membershipServlet extends HttpServlet {
           if(!password.equals(confirmPassword))
           {
               condition = true;
+        ///     questionNoCond = true;
               url = "/signup.jsp";
               request.setAttribute("user", user);
+           //   request.setAttribute("questionNoCond", questionNoCond);
+            //  request.setAttribute("questionString", questionText[(parseInt(questionNo)-1)]);
               request.setAttribute("condition3", condition);        //set confirm password doesn't match condition
               
               
@@ -132,6 +139,14 @@ public class membershipServlet extends HttpServlet {
           //if condition isn't ever found, add to DB
           if(condition != true)
           {
+              
+              
+              
+            Cookie c = new Cookie("emailCookie", email);
+            c.setMaxAge(60 * 60 * 24 * 365 * 2); // set age to 2 years
+            c.setPath("/");                      // allow entire app to access it
+            response.addCookie(c);
+            
             request.setAttribute("user", user);
             url = "/home.jsp";
             UserDB.insert(user);
@@ -143,7 +158,9 @@ public class membershipServlet extends HttpServlet {
             condition = true;
             url = "/signup.jsp";  
             request.setAttribute("user", user);
-           
+    //        questionNoCond = true;
+      //      request.setAttribute("questionNoCond", questionNoCond);
+      //      request.setAttribute("questionString", questionText[(parseInt(questionNo)-1)]);
             if(userCheck.getEmail().equals(email)){
                 request.setAttribute("condition1_1", condition);      //set user exists condition for email
             }       
@@ -166,7 +183,7 @@ public class membershipServlet extends HttpServlet {
        }
        
        
-       
+  
        
              getServletContext()
             .getRequestDispatcher(url)

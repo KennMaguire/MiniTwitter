@@ -1,4 +1,4 @@
-s<%-- 
+<%-- 
     Document   : login.jsp
     Created on : Sep 24, 2015, 6:44:58 PM
     Author     : xl
@@ -9,7 +9,7 @@ s<%--
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page1</title>
+        <title>MiniTwitter</title>
     </head>
     <body>
         <h1>
@@ -18,5 +18,6 @@ s<%--
                 </script>
             
         </h1>
+        <h2> LOGIN PAGE </h2>
     </body>
 </html>
