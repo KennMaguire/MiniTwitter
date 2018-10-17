@@ -16,13 +16,13 @@ and open the template in the editor.
     
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c-rt" %>
-
-
-    
+    <c:remove var="user" scope="session" />
+    <c:import url="header.jsp" />
+    <c:import url="footer.jsp" />
     <body>
         <div id="pagewrap">
         <h1 id ="FormHead">Sign Up for MiniTwitter!</h1>
-        
+       
         <form action="membership" method="post" onsubmit="return validateForm()">  <!--Change Registration in this line to give another page submission -->
             <div id="errorMessage" class="notVisible"></div>
             <div id="javaErrorMessage" class="divVisible" > 
@@ -96,4 +96,5 @@ and open the template in the editor.
         </form>
         </div>
     </body>
+    
 </html>

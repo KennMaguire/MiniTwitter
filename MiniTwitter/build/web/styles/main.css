@@ -9,7 +9,7 @@ and open the template in the editor.
 */
 
 #pagewrap{
-    background-color:#f2f2f2;
+    background-color:rgba(144, 145, 227, 0.1);
     border-radius: 5px;
     margin: 0 auto;
    
@@ -34,6 +34,13 @@ and open the template in the editor.
     position: absolute;
     top: 0px;
     right: 0px;
+}
+#bottomMiddle{
+    position: fixed;
+  
+    bottom: 0px;
+    text-align: center;
+    
 }
 .notVisible{
     Display: none;

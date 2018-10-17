@@ -5,10 +5,18 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c-rt" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
-   
+    <head>
+             <script src="scripts/main.js" type="text/javascript"> </script>
+    </head>
     <body>
-        <div id="topRight"><a href="logout.jsp">Sign out></a></div>
+          <c:if test="${sessionScope.user != null}">
+             <div id="topRight"><a href="login.jsp">Sign out></a></div>
+          </c:if>
+
     </body>
 </html>

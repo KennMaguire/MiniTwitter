@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import murach.util.CookieUtil;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;  
+import java.util.Date;  
 /**
  *
  * @author kennethmaguire
@@ -57,8 +60,15 @@ public class startPage extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Cookie[] cookies = request.getCookies();
+        LocalDate localDate = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("LLLL-dd-yyyy");
+        String currentDate = localDate.format(formatter);
+        
         String url = "";
         String emailAddress = CookieUtil.getCookieValue(cookies, "emailCookie");
+        String newEmailAddress = CookieUtil.getCookieValue(cookies, "newEmailCookie");
+        String password = CookieUtil.getCookieValue(cookies, "passwordCookie");
+        String rememberMe = CookieUtil.getCookieValue(cookies, "rememberMeCookie");
         
          if (emailAddress == null || emailAddress.equals("")) {
                 url = "/signup.jsp";
@@ -68,8 +78,14 @@ public class startPage extends HttpServlet {
          }
             
         
+        request.setAttribute("currentDate", currentDate);           //not useful since getting current date through jstl format
         
-      
+        if(rememberMe.equals("true")){
+            
+            request.setAttribute("email", newEmailAddress);
+            request.setAttribute("password", password);
+        }
+    //    request.setAttribute("rememberMe", rememberMe);
         getServletContext()
                 .getRequestDispatcher(url)
                 .forward(request, response);

@@ -49,6 +49,7 @@ function resetDivAndSpan(_inputName)
      errorDiv.innerHTML = " ";
      errorDiv.className = "notVisible";
 }
+
 function validateForm()
 {
     /*

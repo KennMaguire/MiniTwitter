@@ -16,6 +16,7 @@ import javax.servlet.http.Cookie.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import static java.lang.Integer.parseInt;
+import javax.servlet.http.HttpSession;
 
 
 @WebServlet(name = "membershipServlet", urlPatterns = {"/membership"})
@@ -48,7 +49,7 @@ public class membershipServlet extends HttpServlet {
     //   String action = request.getParameter("action");
        String url = "/signup.jsp";
        String action = request.getParameter("action");
-       HttpSession session = request.getSession();
+    
 
        boolean condition = false;
     //   boolean questionNoCond = false;
@@ -140,13 +141,13 @@ public class membershipServlet extends HttpServlet {
           if(condition != true)
           {
               
-              
+            
               
             Cookie c = new Cookie("emailCookie", email);
             c.setMaxAge(60 * 60 * 24 * 365 * 2); // set age to 2 years
             c.setPath("/");                      // allow entire app to access it
             response.addCookie(c);
-            
+           
             request.setAttribute("user", user);
             url = "/home.jsp";
             UserDB.insert(user);
@@ -176,17 +177,38 @@ public class membershipServlet extends HttpServlet {
        {
            String email = request.getParameter("email");
            String password = request.getParameter("password");
+           String rememberMe = request.getParameter("check[0]");
            User userCheck = UserDB.search(email);
+           HttpSession session = request.getSession();
+           session.setAttribute("user", null);
            condition = false;
            url = "/login.jsp";
            if(userCheck != null)
            {
               if(userCheck.getEmail().equals(email) && userCheck.getPassword().equals(password))
               {
+                   if(rememberMe != null)
+                    {
+                        Cookie c = new Cookie("newEmailCookie", email);
+                        c.setMaxAge(60 * 60 * 24 * 365 * 2); // set age to 2 years
+                        c.setPath("/");                      // allow entire app to access it
+                        response.addCookie(c);
+                        Cookie c2 = new Cookie("passwordCookie", password);
+                        c2.setMaxAge(60 * 60 * 24 * 365 * 2); // set age to 2 years
+                        c2.setPath("/");                      // allow entire app to access it
+                        response.addCookie(c2);
+                        Cookie c3 = new Cookie("rememberMeCookie", rememberMe);
+                        c3.setMaxAge(60 * 60 * 24 * 365 * 2); // set age to 2 years
+                        c3.setPath("/");                      // allow entire app to access it
+                        response.addCookie(c3);
+                    }
+                  request.setAttribute("user", userCheck);
+                  
+                  session.setAttribute("user", userCheck);
                   url = "/home.jsp";
               }
               else
-              {
+              {   
                   condition = true;
                   request.setAttribute("conditionLogin", condition);
               }
@@ -194,9 +216,6 @@ public class membershipServlet extends HttpServlet {
            
            
        }
-       
-       
-  
        
              getServletContext()
             .getRequestDispatcher(url)
