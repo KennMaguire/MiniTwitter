@@ -21,7 +21,7 @@
             <c:redirect url = "/login.jsp"/>
         </c:if>
         <p> 
-            Welcome to your homepage <c:out value="${user.userName}" /> 
+            Welcome to your homepage <c:out value="${user.fullName}" /> 
         </p>
     </body>
 </html>

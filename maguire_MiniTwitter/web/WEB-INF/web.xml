@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee                              http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+    <servlet-mapping>
+        <servlet-name>startPage</servlet-name>
+        <url-pattern>/startPage</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error_404.jsp</location>
+    </error-page>
+    <error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/error_java.jsp</location>
+    </error-page>
+    <servlet>
+        <servlet-name>MembershipServlet</servlet-name>
+        <servlet-class>controller.membershipServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>startPage</servlet-name>
+        <servlet-class>controller.startPage</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>startPage</servlet-name>
+        <url-pattern>/start</url-pattern>
+    </servlet-mapping>
+    <welcome-file-list>
+        <welcome-file>start</welcome-file>
+    </welcome-file-list>
+</web-app>
