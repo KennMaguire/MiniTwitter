@@ -35,6 +35,12 @@ and open the template in the editor.
     top: 0px;
     right: 0px;
 }
+#topLeft{
+    font-size: 110%;
+    position: static;
+    top: 0px;
+    left: 0px;
+}
 #bottomMiddle{
     position: fixed;
   

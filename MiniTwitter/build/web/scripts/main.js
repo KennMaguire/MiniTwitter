@@ -49,6 +49,11 @@ function resetDivAndSpan(_inputName)
      errorDiv.innerHTML = " ";
      errorDiv.className = "notVisible";
 }
+function redirectToUrl(_url)
+{
+    return window.location = _url;
+}
+
 
 function validateForm()
 {

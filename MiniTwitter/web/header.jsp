@@ -15,7 +15,12 @@
     </head>
     <body>
           <c:if test="${sessionScope.user != null}">
-             <div id="topRight"><a href="login.jsp">Sign out></a></div>
+              <div id="topRight"><a href="login.jsp">Sign out></a></div>
+              <div id="tab">
+                <button  onclick="redirectToUrl('signup.jsp')">Profile</button>
+                <button onclick="redirectToUrl('notification.jsp')">Notification</button>
+                <button onclick="redirectToUrl('home.jsp')">Home</button>
+              </div>
           </c:if>
 
     </body>

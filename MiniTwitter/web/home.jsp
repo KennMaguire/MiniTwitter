@@ -23,5 +23,6 @@
         <p> 
             Welcome to your homepage <c:out value="${user.fullName}" /> 
         </p>
+        
     </body>
 </html>
