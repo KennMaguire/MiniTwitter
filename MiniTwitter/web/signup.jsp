@@ -16,7 +16,7 @@ and open the template in the editor.
     
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c-rt" %>
-    <c:remove var="user" scope="session" />
+
     <c:import url="header.jsp" />
     <c:import url="footer.jsp" />
     <body>

@@ -15,12 +15,15 @@
     </head>
     <body>
           <c:if test="${sessionScope.user != null}">
-              <div id="topRight"><a href="login.jsp">Sign out></a></div>
+              <form action="membership" method="post"> 
               <div id="tab">
-                <button  onclick="redirectToUrl('signup.jsp')">Profile</button>
-                <button onclick="redirectToUrl('notification.jsp')">Notification</button>
-                <button onclick="redirectToUrl('home.jsp')">Home</button>
+                <input type='hidden' name='action' value='signout' >
+                <div id="topRight"><button>Sign out></button></div>
               </div>
+              </form> 
+              <button onclick="redirectToUrl('signup.jsp')">Profile</button>
+              <button onclick="redirectToUrl('notification.jsp')">Notification</button>
+              <button onclick="redirectToUrl('home.jsp')">Home</button>
           </c:if>
 
     </body>

@@ -8,7 +8,7 @@
     <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c-rt" %>
      
     
-<c:remove var="user" scope="session" />    
+
 <c:import url="header.jsp" />
 <c:import url="footer.jsp" />
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

@@ -51,7 +51,10 @@ function resetDivAndSpan(_inputName)
 }
 function redirectToUrl(_url)
 {
-    return window.location = _url;
+    
+   return window.location = _url;
+   
+   
 }
 
 
