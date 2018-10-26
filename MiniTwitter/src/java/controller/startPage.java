@@ -78,7 +78,7 @@ public class startPage extends HttpServlet {
          }
             
         
-        request.setAttribute("currentDate", currentDate);           //not useful since getting current date through jstl format
+      //  request.setAttribute("currentDate", currentDate);           //not useful since getting current date through jstl format
         
         if(rememberMe.equals("true")){
             

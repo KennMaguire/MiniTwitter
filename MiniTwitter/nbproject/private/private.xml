@@ -2,22 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/Users/kennethmaguire/School%20Work/Web%20Applications/Web%20Prog%20Assignments/Assignment3/MiniTwitter/src/java/controller/startPage.java</file>
-            <file>file:/Users/kennethmaguire/School%20Work/Web%20Applications/Web%20Prog%20Assignments/Assignment3/MiniTwitter/web/WEB-INF/web.xml</file>
-            <file>file:/Users/kennethmaguire/School%20Work/Web%20Applications/Web%20Prog%20Assignments/Assignment3/MiniTwitter/web/header.jsp</file>
-            <file>file:/Users/kennethmaguire/School%20Work/Web%20Applications/Web%20Prog%20Assignments/Assignment3/MiniTwitter/web/home.jsp</file>
-            <file>file:/Users/kennethmaguire/School%20Work/Web%20Applications/Web%20Prog%20Assignments/Assignment3/MiniTwitter/web/logout.jsp</file>
-            <file>file:/Users/kennethmaguire/School%20Work/Web%20Applications/Web%20Prog%20Assignments/Assignment3/MiniTwitter/web/footer.jsp</file>
-            <file>file:/Users/kennethmaguire/School%20Work/Web%20Applications/Web%20Prog%20Assignments/Assignment3/MiniTwitter/web/styles/main.css</file>
-            <file>file:/Users/kennethmaguire/School%20Work/Web%20Applications/Web%20Prog%20Assignments/Assignment3/MiniTwitter/web/forgotPassword.jsp</file>
-            <file>file:/Users/kennethmaguire/School%20Work/Web%20Applications/Web%20Prog%20Assignments/Assignment3/MiniTwitter/src/java/business/User.java</file>
-            <file>file:/Users/kennethmaguire/School%20Work/Web%20Applications/Web%20Prog%20Assignments/Assignment3/MiniTwitter/web/login.jsp</file>
-            <file>file:/Users/kennethmaguire/School%20Work/Web%20Applications/Web%20Prog%20Assignments/Assignment3/MiniTwitter/web/error_404.jsp</file>
-            <file>file:/Users/kennethmaguire/School%20Work/Web%20Applications/Web%20Prog%20Assignments/Assignment3/MiniTwitter/src/java/dataaccess/UserDB.java</file>
-            <file>file:/Users/kennethmaguire/School%20Work/Web%20Applications/Web%20Prog%20Assignments/Assignment3/MiniTwitter/web/signup.jsp</file>
-            <file>file:/Users/kennethmaguire/School%20Work/Web%20Applications/Web%20Prog%20Assignments/Assignment3/MiniTwitter/web/scripts/main.js</file>
-            <file>file:/Users/kennethmaguire/School%20Work/Web%20Applications/Web%20Prog%20Assignments/Assignment3/MiniTwitter/src/java/controller/membershipServlet.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

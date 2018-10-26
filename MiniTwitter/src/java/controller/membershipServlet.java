@@ -183,10 +183,9 @@ public class membershipServlet extends HttpServlet {
            session.setAttribute("user", null);
            condition = false;
            url = "/login.jsp";
-           if(userCheck != null)
+           if(userCheck != null && userCheck.getEmail().equals(email) && userCheck.getPassword().equals(password))
            {
-              if(userCheck.getEmail().equals(email) && userCheck.getPassword().equals(password))
-              {
+              
                    if(rememberMe != null)
                     {
                         Cookie c = new Cookie("newEmailCookie", email);
@@ -206,12 +205,15 @@ public class membershipServlet extends HttpServlet {
                   
                   session.setAttribute("user", userCheck);
                   url = "/home.jsp";
-              }
-              else
-              {   
+              
+             
+           }
+           else
+           {   
                   condition = true;
+                  request.setAttribute("email", email);
+                  request.setAttribute("password", password);
                   request.setAttribute("conditionLogin", condition);
-              }
            }
            
            
