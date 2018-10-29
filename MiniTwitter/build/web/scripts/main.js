@@ -52,7 +52,14 @@ function resetDivAndSpan(_inputName)
 function redirectToUrl(_url)
 {
     
+   // activeB = document.getElementsByClassName("tab_button");
+   // for (i = 0; i < activeB.length; i++) {
+  //      activeB[i].className = activeB[i].className.replace(" active", "");
+  //  }
+   
+  // evt.currentTarget.className += " active";
    return window.location = _url;
+  
    
    
 }

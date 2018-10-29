@@ -26,7 +26,7 @@
 
     
     <body>
-        <div id="pagewrap">
+        <div id="pagewrapMiddle">
         <h2 id ="FormHead"> LOGIN </h2>
         
         <form action="membership" method="post">

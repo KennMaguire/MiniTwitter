@@ -20,7 +20,7 @@ and open the template in the editor.
     <c:import url="header.jsp" />
     <c:import url="footer.jsp" />
     <body>
-        <div id="pagewrap">
+        <div id="pagewrapMiddle">
         <h1 id ="FormHead">Sign Up for MiniTwitter!</h1>
        
         <form action="membership" method="post" onsubmit="return validateForm()">  <!--Change Registration in this line to give another page submission -->
