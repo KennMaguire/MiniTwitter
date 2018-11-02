@@ -19,6 +19,7 @@ and open the template in the editor.
 
     <c:import url="header.jsp" />
     <c:import url="footer.jsp" />
+    
     <body>
         <div id="pagewrapMiddle">
         <h1 id ="FormHead">Sign Up for MiniTwitter!</h1>
