@@ -45,11 +45,13 @@
             
       <div id='MiddleTop'>
             <form action='membership'>
+            <div id='twitBox'>
                 <input hidden name='action' value='twit'>
-                <h3>Twit</h1>
+                <h3>Twit</h3>
                 <textarea name='twit' cols='30' rows='5' maxlength='280'></textarea><br>
-                <input type='submit' value='Submit'>
+                <input type='submit' value='twit'>
             </form>
+            </div>
       </div>       
             
        
