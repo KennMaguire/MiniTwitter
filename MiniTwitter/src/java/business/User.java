@@ -14,6 +14,7 @@ public class User implements Serializable {
     //define attributes fullname, ...
     
     //define set/get methods for all attributes.
+    private String userID;
     private String fullName;
     private String userName;
     private String email;
@@ -38,8 +39,17 @@ public class User implements Serializable {
         this.setQuestionNo(data[5]);
         this.setAnswer(data[6]);
         this.setConfirmPassword(data[7]);
+        this.setUserID(data[8]);
     
         
+    }
+    public void setUserID(String userID)
+    {
+        this.userID = userID;
+    }
+    public String getUserID()
+    {
+        return this.userID;
     }
     public String getFullName()
     {
