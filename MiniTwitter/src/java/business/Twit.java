@@ -46,4 +46,12 @@ public class Twit implements Serializable{
     {
         return this.userID;
     }
+    public void setTwitDate(String twitDate)
+    {
+        this.twitDate = twitDate;
+    }
+    public String getTwitDate()
+    {
+        return this.twitDate;
+    }
 }

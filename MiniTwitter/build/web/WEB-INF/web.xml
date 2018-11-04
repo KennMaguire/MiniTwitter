@@ -4,6 +4,10 @@
         <servlet-name>homePage</servlet-name>
         <servlet-class>controller.homePage</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>userPage</servlet-name>
+        <servlet-class>controller.userPage</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>startPage</servlet-name>
         <url-pattern>/startPage</url-pattern>
@@ -12,7 +16,10 @@
         <servlet-name>homePage</servlet-name>
         <url-pattern>/homePage</url-pattern>
     </servlet-mapping>
-    
+    <servlet-mapping>
+        <servlet-name>userPage</servlet-name>
+        <url-pattern>/userPage</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
