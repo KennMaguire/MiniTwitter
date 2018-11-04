@@ -6,6 +6,7 @@
 package business;
 
 import java.io.Serializable;
+import java.util.Comparator;
 
 /**
  *
@@ -55,3 +56,5 @@ public class Twit implements Serializable{
         return this.twitDate;
     }
 }
+
+ 

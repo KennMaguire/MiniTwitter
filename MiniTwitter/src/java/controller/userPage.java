@@ -5,12 +5,17 @@
  */
 package controller;
 
+import business.Twit;
+import business.User;
+import dataaccess.TwitDB;
+import dataaccess.UserDB;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -56,7 +61,42 @@ public class userPage extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        String url = "/home.jsp";
+        String action = request.getParameter("action");
+        HttpSession session = request.getSession();
         
+        if(action.equals("postTwit"))
+        {
+            boolean succeed;
+            User user = (User) session.getAttribute("user");
+            User foundUser = UserDB.search(user.getEmail());            //I'm not including the userID in the session object, so I;m getting it from the DB
+            String userID = foundUser.getUserID();
+            //getting the date
+            java.util.Date dt = new java.util.Date();   //found at https://stackoverflow.com/questions/2400955/how-to-store-java-date-to-mysql-datetime
+
+            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String currentTime = sdf.format(dt);
+           
+            Twit twit = new Twit();
+            twit.setUserID(userID);
+            twit.setTwit(request.getParameter("twit"));
+            twit.setTwitDate(currentTime);
+            succeed = TwitDB.insert(twit);
+            
+            
+            ArrayList<Twit> twits= new ArrayList<Twit>();
+            twits = TwitDB.getUserTwits(foundUser);
+            request.setAttribute("twitNumber", twits.size());
+            session.setAttribute("twitNumber", twits.size());
+            request.setAttribute("twits", twits);
+            session.setAttribute("twits", twits);
+            
+        }
+        
+        
+          getServletContext()
+            .getRequestDispatcher(url)
+            .forward(request, response);
         
         
     }

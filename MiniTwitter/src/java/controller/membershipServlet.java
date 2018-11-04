@@ -5,17 +5,15 @@
  */
 package controller;
 
+import business.Twit;
 import business.User;
+import dataaccess.TwitDB;
 import dataaccess.UserDB;
 import java.io.*;
 import java.util.ArrayList;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie.*;
-import javax.servlet.*;
 import javax.servlet.http.*;
-import static java.lang.Integer.parseInt;
 import javax.servlet.http.HttpSession;
 import murach.util.CookieUtil;
 
@@ -105,10 +103,7 @@ public class membershipServlet extends HttpServlet {
                   //      request.setAttribute("questionString", questionText[(parseInt(questionNo)-1)]);
                        request.setAttribute("emptyInputList", emptyInputList);
                        url = "/signup.jsp";
-
-
                    }
-
               }
 
               //if the input list is not empty, forward request/response
@@ -121,14 +116,10 @@ public class membershipServlet extends HttpServlet {
 
                     request.setAttribute("condition3", condition);        //set confirm password doesn't match condition
 
-
                 }
 
                 if(condition != true)
                 {
-
-
-
                   Cookie c = new Cookie("emailCookie", email);
                   c.setMaxAge(60 * 60 * 24 * 365 * 2); // set age to 2 years
                   c.setPath("/");                      // allow entire app to access it
@@ -167,6 +158,9 @@ public class membershipServlet extends HttpServlet {
            User userCheck = UserDB.search(email);
            HttpSession session = request.getSession();
            session.setAttribute("user", null);
+           ArrayList<Twit> twits= new ArrayList<Twit>();
+           twits = TwitDB.getUserTwits(userCheck);
+           
            condition = false;
            url = "/login.jsp";
            if(userCheck != null && userCheck.getEmail().equals(email) && userCheck.getPassword().equals(password))
@@ -187,9 +181,14 @@ public class membershipServlet extends HttpServlet {
                         c3.setPath("/");                      // allow entire app to access it
                         response.addCookie(c3);
                     }
+                   
+                  
                   request.setAttribute("user", userCheck);
-
+                  request.setAttribute("twits", twits);
                   session.setAttribute("user", userCheck);
+                  session.setAttribute("twits", twits);
+                  request.setAttribute("twitNumber", twits.size());
+                  session.setAttribute("twitNumber", twits.size());
                   url = "/home.jsp";
 
 

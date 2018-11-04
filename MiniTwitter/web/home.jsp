@@ -34,7 +34,7 @@
             </p>
             
             <h3>
-                Number of twits: 
+                Number of twits: <c:out value="${twitNumber}" />
             </h3>
             
       </div>
@@ -43,16 +43,28 @@
             <h2>Trends</h2>
       </div>
             
-      <div id='MiddleTop'>
-            <form action='membership'>
+      <div id='MiddleTopTwit'>
+            <form action='userPage' method="post">
             <div id='twitBox'>
-                <input hidden name='action' value='twit'>
+                <input hidden name='action' value='postTwit'>
                 <h3>Twit</h3>
                 <textarea name='twit' cols='30' rows='5' maxlength='280'></textarea><br>
-                <input type='submit' value='twit'>
-            </form>
+                <input type='submit' value='Post'>
             </div>
-      </div>       
+            </form>
+            
+      </div>   
+            
+   
+    <c:forEach var="twit" items="${twits}">
+    <div id='MiddleTopPosts'>
+        <div id="twitPosts"
+        <h3 twit>@<c:out value="${user.email}" />: <p id="twitDate"> <c:out value="${twit.twitDate}" /> </p></h3> 
+        <p id="twit">"<c:out value="${twit.twit}" />"</p>
+        </div>
+    </div> 
+    </c:forEach>
+   
             
        
     </body>
