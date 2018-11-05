@@ -61,6 +61,46 @@ public class TwitDB {
         }
         return true;
     }
+    public static Twit getTwitByID(String twitID)
+    {
+        Twit twit = new Twit();
+        String sqlResult = "";
+        String query = " select * from twitterdb.twits where (twitID = ?) ";
+        
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();          //exception for driver not found happens in connection pool
+         //get driver and connections
+        PreparedStatement preparedStmt = null;
+        
+        try
+        {
+            twitID = twitID.replace("'", "");
+            preparedStmt = connection.prepareStatement(query);
+            preparedStmt.setString(1, twitID);
+            ResultSet rs = preparedStmt.executeQuery();
+            
+            while(rs.next())
+            {
+               
+               twit.setUserID(rs.getString("userID"));
+               twit.setTwit(rs.getString("twit"));
+               twit.setTwitDate(rs.getString("twitDate"));
+               twit.setTwitID(rs.getString("twitID"));
+               return twit;
+            }
+            
+            
+        }
+        catch(SQLException e)
+        {
+            sqlResult = "<p>Error executing the SQL statement: <br>"
+                    + e.getMessage() + "</p>";
+            return null;   //return false if failed to add  
+        }
+        return null;
+        
+                
+    }
     public static ArrayList<Twit> getUserTwits(User user)
     {
         ArrayList<Twit> twits = new ArrayList<Twit>();
@@ -105,5 +145,30 @@ public class TwitDB {
         
         
     }
-    
+    public static int delete(Twit twit) throws IOException,
+            ServletException
+    {
+       int result = 0;
+       
+       // load the driver, get connection
+       ConnectionPool pool = ConnectionPool.getInstance();
+       Connection connection = pool.getConnection();
+       PreparedStatement preparedStmt = null;
+       
+       
+       
+       try{
+            String query = " delete from twitterdb.twits  where (twitID = ?) ";
+            preparedStmt = connection.prepareStatement(query);
+            preparedStmt.setString(1, twit.getTwitID());
+            
+            result = preparedStmt.executeUpdate();
+            return result;
+       }
+       catch(SQLException e)
+       {
+           return result;
+       }
+        
+    }
 }

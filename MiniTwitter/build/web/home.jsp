@@ -58,10 +58,13 @@
    
     <c:forEach var="twit" items="${twits}">
     <div id='MiddleTopPosts'>
-        <div id="twitPosts"
-        <h3 twit>@<c:out value="${user.email}" />: <p id="twitDate"> <c:out value="${twit.twitDate}" /> </p></h3> 
-        <p id="twit">"<c:out value="${twit.twit}" />"</p>
+        
+        <div id="twitPosts">
+             <h3 twit>@<c:out value="${user.email}" />: <p id="twitDate"> <c:out value="${twit.twitDate}" /> </p></h3> 
+             <p id="twit">"<c:out value="${twit.twit}" />"</p>
+             <a id="deleteButton" href="userPage?action=deleteTwit&amp;twitID='${twit.twitID}'">delete</a>
         </div>
+       
     </div> 
     </c:forEach>
    

@@ -70,7 +70,7 @@ and open the template in the editor.
     background-color:rgba(144, 145, 227, 0.1);
     border-radius: 5px;
     margin: 0 auto;
-    
+    position:relative;
     display: block;
     top: 0%;
     width: 30%;
@@ -105,6 +105,25 @@ textarea{
     max-width: 100%;
     display: inline-block;
     resize: none;
+}
+#deleteButton{
+    font-size: 8px;
+    display: inline-block;
+    position: absolute;
+    background-color: rgba(144, 145, 227, 0.1);
+    border: none;
+    top: 15%;
+    right: 8%;
+}
+#deleteButton:hover{
+    font-size: 8px;
+    display: inline-block;
+    cursor: pointer;
+    position: absolute;
+    background-color: rgba(144, 145, 227, 0.5);
+    border: none;
+    top: 15%;
+    right: 8%;
 }
 #twit{
     font-family: "Times New Roman", Times;

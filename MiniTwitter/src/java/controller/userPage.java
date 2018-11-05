@@ -64,12 +64,12 @@ public class userPage extends HttpServlet {
         String url = "/home.jsp";
         String action = request.getParameter("action");
         HttpSession session = request.getSession();
-        
+        User user = (User) session.getAttribute("user");
+        User foundUser = UserDB.search(user.getEmail());  //I'm not including the userID in the session object, so I;m getting it from the DB
         if(action.equals("postTwit"))
         {
             boolean succeed;
-            User user = (User) session.getAttribute("user");
-            User foundUser = UserDB.search(user.getEmail());            //I'm not including the userID in the session object, so I;m getting it from the DB
+                      
             String userID = foundUser.getUserID();
             //getting the date
             java.util.Date dt = new java.util.Date();   //found at https://stackoverflow.com/questions/2400955/how-to-store-java-date-to-mysql-datetime
@@ -92,7 +92,22 @@ public class userPage extends HttpServlet {
             session.setAttribute("twits", twits);
             
         }
-        
+        if(action.equals("deleteTwit"))
+        {
+            Twit twit = new Twit();
+           // twit.setTwit(request.getParameter("twit"));
+           // twit.setTwitDate(request.getParameter("twitDate"));
+            twit.setTwitID(request.getParameter("twitID"));
+            twit = TwitDB.getTwitByID(twit.getTwitID());
+           // twit.setUserID(request.getParameter("userID"));
+            TwitDB.delete(twit);
+            ArrayList<Twit> twits= new ArrayList<Twit>();
+            twits = TwitDB.getUserTwits(foundUser);
+            request.setAttribute("twitNumber", twits.size());
+            session.setAttribute("twitNumber", twits.size());
+            request.setAttribute("twits", twits);
+            session.setAttribute("twits", twits);
+        }
         
           getServletContext()
             .getRequestDispatcher(url)
