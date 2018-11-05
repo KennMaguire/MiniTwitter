@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import javax.servlet.ServletException;
+import util.DBUtil;
 
 /**
  *
@@ -59,6 +60,13 @@ public class TwitDB {
                     + e.getMessage() + "</p>";
            return false; 
         }
+        finally
+        {
+            DBUtil.closePreparedStatement(preparedStmt);
+            pool.freeConnection(connection);
+            
+            
+        }
         return true;
     }
     public static Twit getTwitByID(String twitID)
@@ -96,6 +104,13 @@ public class TwitDB {
             sqlResult = "<p>Error executing the SQL statement: <br>"
                     + e.getMessage() + "</p>";
             return null;   //return false if failed to add  
+        }
+        finally
+        {
+            DBUtil.closePreparedStatement(preparedStmt);
+            pool.freeConnection(connection);
+            
+            
         }
         return null;
         
@@ -140,7 +155,13 @@ public class TwitDB {
                     + e.getMessage() + "</p>";
             return null;   //return false if failed to add  
         }
-        
+         finally
+        {
+            DBUtil.closePreparedStatement(preparedStmt);
+            pool.freeConnection(connection);
+            
+            
+        }
         
         
         
@@ -169,6 +190,13 @@ public class TwitDB {
        {
            return result;
        }
+        finally
+        {
+            DBUtil.closePreparedStatement(preparedStmt);
+            pool.freeConnection(connection);
+            
+            
+        }
         
     }
 }

@@ -49,6 +49,13 @@ public class UserDB {
                     + e.getMessage() + "</p>";
             return false;   //return false if failed to add
      }
+     finally
+     {
+        DBUtil.closePreparedStatement(preparedStmt);
+        pool.freeConnection(connection);
+            
+            
+     }   
      return true;
     }
 
