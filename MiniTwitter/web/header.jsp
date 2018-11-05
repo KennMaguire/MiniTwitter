@@ -19,7 +19,7 @@
     <body>
           <c:if test="${sessionScope.user != null}">
                
-               <button class="tab_button" onclick="redirectToUrl('signup.jsp')">Profile</button>
+               <button class="tab_button" onclick="redirectToUrl('update.jsp')">Profile</button>
                 <button class="tab_button" onclick="redirectToUrl('notification.jsp')">Notification</button>
                 <button class="tab_button" onclick="redirectToUrl('home.jsp')">Home</button>
                 
