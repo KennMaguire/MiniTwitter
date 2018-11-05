@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
+import java.util.regex.*;
 /**
  *
  * @author kennethmaguire
@@ -76,13 +76,21 @@ public class userPage extends HttpServlet {
 
             java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String currentTime = sdf.format(dt);
-           
+            String mention = request.getParameter("twit");
+            
             Twit twit = new Twit();
             twit.setUserID(userID);
             twit.setTwit(request.getParameter("twit"));
             twit.setTwitDate(currentTime);
             succeed = TwitDB.insert(twit);
             
+            Pattern p = Pattern.compile("([@][\\S]+)");
+            Matcher m = p.matcher(mention);
+            ArrayList<String> mentions = new ArrayList<String>();
+            while(m.find())
+            {
+                mentions.add(m.group(1));
+            }
             
             ArrayList<Twit> twits= new ArrayList<Twit>();
             twits = TwitDB.getUserTwits(foundUser);
