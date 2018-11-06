@@ -30,7 +30,7 @@
           
         </h2>
             <p>
-               @<c:out value="${user.email}" /> 
+               @<c:out value="${user.userName}" /> 
             </p>
             
             <h3>
