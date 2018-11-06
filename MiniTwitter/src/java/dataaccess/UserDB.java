@@ -120,7 +120,7 @@ public class UserDB {
         
     }
  
-    public static boolean update(User user)
+    public static int update(User user)
     {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
@@ -128,7 +128,7 @@ public class UserDB {
         String sqlResult = "";
         String query = " update twitterdb.user set fullname = ?, username = ?, "
                 + "password = ?, birthdate = ?, questionNo = ?, answer = ? where emailAddress = ?";
-        
+        int result;
         try{
             preparedStmt = connection.prepareStatement(query);
             preparedStmt.setString(1, user.getFullName());
@@ -138,11 +138,13 @@ public class UserDB {
             preparedStmt.setString(5, user.getQuestionNo());
             preparedStmt.setString(6, user.getAnswer());
             preparedStmt.setString(7, user.getEmail());
+            result = preparedStmt.executeUpdate();
+            return result;
         }
         catch (SQLException e) {
             sqlResult = "<p>Error executing the SQL statement: <br>"
                     + e.getMessage() + "</p>";
-            return false;   //return false if failed to add
+            return -1;   //return false if failed to add
         }
         finally
         {
@@ -152,7 +154,7 @@ public class UserDB {
             
         }
         
-        return false;
+       
     }
     public static User searchByID(String userID) 
     {

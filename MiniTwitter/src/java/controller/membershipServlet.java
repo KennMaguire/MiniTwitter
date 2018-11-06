@@ -45,16 +45,16 @@ public class membershipServlet extends HttpServlet {
    protected void doPost(HttpServletRequest request, HttpServletResponse response)
            throws ServletException, IOException {
 
-    //   String action = request.getParameter("action");
-       String url = "/signup.jsp";
-       String action = request.getParameter("action");
+   
+        String url = "/signup.jsp";
+        String action = request.getParameter("action");
 
 
-       boolean condition = false;
-    //   boolean questionNoCond = false;
-  //     String[] questionText = {"your first pet","your first car", "your first school"};
-       if(action.equals("signup"))
-       {
+        boolean condition = false;
+       
+        //     String[] questionText = {"your first pet","your first car", "your first school"};
+        if(action.equals("signup"))
+        {
           User user = new User();
           String fullName = request.getParameter("fullName");
           String userName = request.getParameter("userName");
@@ -83,30 +83,30 @@ public class membershipServlet extends HttpServlet {
           user.setAnswer(answer);
 
 
-           if(userCheck == null)         //before running other tests, make sure user doesn't exist
-           {
+            if(userCheck == null)         //before running other tests, make sure user doesn't exist
+            {
               String[] whichEmptyInput = {"Full Name", "User Name", "Email", "Password", "Confirm Password", "Birth Date", "Security Question", "Response" };
 
 
               ArrayList<String> emptyInputList = new ArrayList<String>();
 
-              for(int i = 0; i < userDetails.length; i++ )
-              {
-                   if(userDetails[i].equals("") || userDetails[i].equals(" ") )
-                   {
+                for(int i = 0; i < userDetails.length; i++ )
+                {
+                    if(userDetails[i].equals("") || userDetails[i].equals(" ") )
+                    {
                        condition = true;
-                //       questionNoCond = true;
+                       //       questionNoCond = true;
                        emptyInputList.add(whichEmptyInput[i]);
                        request.setAttribute("user", user);
                        request.setAttribute("condition2", condition);   //set blank value condition
-                //       request.setAttribute("questionNoCond", questionNoCond);
-                  //      request.setAttribute("questionString", questionText[(parseInt(questionNo)-1)]);
+                       //       request.setAttribute("questionNoCond", questionNoCond);
+                       //      request.setAttribute("questionString", questionText[(parseInt(questionNo)-1)]);
                        request.setAttribute("emptyInputList", emptyInputList);
                        url = "/signup.jsp";
-                   }
-              }
+                    }
+                }
 
-              //if the input list is not empty, forward request/response
+                //if the input list is not empty, forward request/response
                 if(!password.equals(confirmPassword))
                 {
                     condition = true;
@@ -120,38 +120,109 @@ public class membershipServlet extends HttpServlet {
 
                 if(condition != true)
                 {
-                  Cookie c = new Cookie("emailCookie", email);
-                  c.setMaxAge(60 * 60 * 24 * 365 * 2); // set age to 2 years
-                  c.setPath("/");                      // allow entire app to access it
-                  response.addCookie(c);
-
-                  request.setAttribute("user", user);
-                  url = "/home.jsp";
-                  UserDB.insert(user);
+                    Cookie c = new Cookie("emailCookie", email);
+                    c.setMaxAge(60 * 60 * 24 * 365 * 2); // set age to 2 years
+                    c.setPath("/");                      // allow entire app to access it
+                    response.addCookie(c);
+                    
+                    request.setAttribute("user", user);
+                    url = "/home.jsp";
+                    UserDB.insert(user);
                 }
 
-             }  // end of add user if user does not exist
-             else
-             {
-                  condition = true;
-                  url = "/signup.jsp";
-                  request.setAttribute("user", user);
-          //        questionNoCond = true;
-            //      request.setAttribute("questionNoCond", questionNoCond);
-            //      request.setAttribute("questionString", questionText[(parseInt(questionNo)-1)]);
-                  if(userCheck.getEmail().equals(email)){
-                      request.setAttribute("condition1_1", condition);      //set user exists condition for email
-                  }
+            }  // end of add user if user does not exist
+            else
+            {
+                condition = true;
+                url = "/signup.jsp";
+                request.setAttribute("user", user);
+                //        questionNoCond = true;
+                //      request.setAttribute("questionNoCond", questionNoCond);
+                //      request.setAttribute("questionString", questionText[(parseInt(questionNo)-1)]);
+                if(userCheck.getEmail().equals(email)){
+                    request.setAttribute("condition1_1", condition);      //set user exists condition for email
+                }
 
-                  if(userCheck.getUserName().equals(userName)){
-                      request.setAttribute("condition1_2", condition);      //set user exists condition for username
-                  }
+                if(userCheck.getUserName().equals(userName)){
+                    request.setAttribute("condition1_2", condition);      //set user exists condition for username
+                }
 
 
-             }
-      }         //end signup
-       if(action.equals("login"))
-       {
+            }
+        }         //end signup
+        if(action.equals("update"))
+        {
+            User user = new User();
+            String fullName = request.getParameter("fullName");
+            String userName = request.getParameter("userName");
+            String email = request.getParameter("email");
+            String password = request.getParameter("password");
+            String confirmPassword = request.getParameter("confirmPassword");
+            String birthDate = request.getParameter("birthDate");      
+            String questionNo = request.getParameter("questionNo");
+            String answer = request.getParameter("answer");
+            url = "/home.jsp";                  //if successful, go to home.jsp
+            int result = 0;
+            User userCheck = new User();
+            userCheck = UserDB.search(email);
+            String[] whichEmptyInput = {"Full Name", "User Name", "Email", "Password", "Confirm Password", "Birth Date", "Security Question", "Response" };
+
+            String[] userDetails;
+            userDetails = new String[] {fullName, userName, email, password, confirmPassword, birthDate, questionNo, answer};
+            ArrayList<String> emptyInputList = new ArrayList<String>();
+            //check for empty input
+            for(int i = 0; i < userDetails.length; i++ )
+            {
+                if(userDetails[i].equals("") || userDetails[i].equals(" ") )
+                {
+                    condition = true;
+                    //       questionNoCond = true;
+                    emptyInputList.add(whichEmptyInput[i]);
+                    request.setAttribute("user", user);
+                    request.setAttribute("condition2", condition);   //set blank value condition
+                    //       request.setAttribute("questionNoCond", questionNoCond);
+                    //      request.setAttribute("questionString", questionText[(parseInt(questionNo)-1)]);
+                    request.setAttribute("emptyInputList", emptyInputList);
+                    url = "/update.jsp";
+                }
+            }
+            if(!password.equals(confirmPassword))
+            {
+                condition = true;
+                
+                url = "/update.jsp";
+                request.setAttribute("user", user);
+                
+                request.setAttribute("condition3", condition);        //set confirm password doesn't match condition
+                
+            }
+            if(userCheck != null)
+            {
+                user.setFullName(fullName);
+                user.setUserName(userName);
+                user.setEmail(email);
+                user.setPassword(password);
+                user.setConfirmPassword(confirmPassword);
+                user.setBirthDate(birthDate);
+                user.setQuestionNo(questionNo);
+                user.setAnswer(answer);
+                result = UserDB.update(user);
+                if(result != 0)
+                {
+                    HttpSession session = request.getSession();
+                    session.setAttribute("user", user);
+                    request.setAttribute("user", user);
+                }
+                else            //need to add failed update code
+                {
+                    url = "/update.jsp";
+                }
+                
+            }
+            
+        }
+        if(action.equals("login"))
+        {
            String email = request.getParameter("email");
            String password = request.getParameter("password");
            String rememberMe = request.getParameter("check[0]");
@@ -202,7 +273,7 @@ public class membershipServlet extends HttpServlet {
            }
 
 
-       }        //end login
+        }        //end login
        
        if(action.equals("signout"))
        {
