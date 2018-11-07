@@ -9,6 +9,7 @@ import business.User;
 import java.io.*;
 import javax.servlet.*;
 import java.sql.*;
+import java.util.ArrayList;
 
 
 
@@ -208,5 +209,40 @@ public class UserDB {
             
             
         }
+    }
+    public static ArrayList<User> getAllUsers()
+    {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement preparedStmt = null;
+        String sqlResult = "";
+        String query = " select fullname, username from twitterdb.user ";
+        String fullname;
+        ArrayList<User> users = new ArrayList<User>();
+        try{
+         preparedStmt = connection.prepareStatement(query);
+         ResultSet rs = preparedStmt.executeQuery();
+         
+         while(rs.next())
+         {
+             User user = new User();
+             user.setFullName(rs.getString("fullname"));
+             user.setUserName(rs.getString("username"));
+             users.add(user);
+         }
+         return users;
+        }
+        catch(SQLException e)
+        {
+             sqlResult = "<p>Error executing the SQL statement: <br>"
+                    + e.getMessage() + "</p>";
+            return null;   
+        }
+        finally
+        {
+            DBUtil.closePreparedStatement(preparedStmt);
+            pool.freeConnection(connection);
+        }
+        
     }
 }

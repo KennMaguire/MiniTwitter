@@ -115,6 +115,7 @@ public class userPage extends HttpServlet {
             session.setAttribute("twitNumber", twits.size());
             request.setAttribute("twits", twits);
             session.setAttribute("twits", twits);
+            
         }
         
           getServletContext()

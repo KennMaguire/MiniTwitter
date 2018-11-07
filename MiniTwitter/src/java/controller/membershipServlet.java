@@ -230,6 +230,7 @@ public class membershipServlet extends HttpServlet {
            HttpSession session = request.getSession();
            session.setAttribute("user", null);
            ArrayList<Twit> twits= new ArrayList<Twit>();
+           ArrayList<User> users = new ArrayList<User>();
            twits = TwitDB.getUserTwits(userCheck);
            
            condition = false;
@@ -253,7 +254,9 @@ public class membershipServlet extends HttpServlet {
                         response.addCookie(c3);
                     }
                    
-                  
+                  users = UserDB.getAllUsers();
+                  session.setAttribute("users", users);
+                  request.setAttribute("users", users);
                   request.setAttribute("user", userCheck);
                   request.setAttribute("twits", twits);
                   session.setAttribute("user", userCheck);
