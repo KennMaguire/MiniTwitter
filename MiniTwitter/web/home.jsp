@@ -68,11 +68,16 @@
        
     </div> 
     </c:forEach>
-   
-    <c:forEach var="user" items="${users}">
-                <h3><c:out value="${user.fullName}" /></h3>
-                <h3><c:out value="${user.userName}" /></h3>
-    </c:forEach>        
-       
+            
+        <div id="TopRightUsers">
+        <c:forEach var="user" items="${users}">
+            
+                <div id="userRecommend">
+            <h3><c:out value="${user.fullName}" /></h3>
+            <h3><c:out value="${user.userName}" /></h3>
+                </div>
+           
+        </c:forEach>        
+        </div>
     </body>
 </html>

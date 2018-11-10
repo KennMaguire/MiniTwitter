@@ -13,7 +13,8 @@ and open the template in the editor.
     border-radius: 5px;
     margin: 0 auto;
     top: 50%;
-    display: block;
+    clear: none;
+    display: inline-block;
     width: 400px;
     text-align: left;
     vertical-align: middle;
@@ -21,16 +22,16 @@ and open the template in the editor.
 }
 #pagewrapTopLeft{
     background-color:rgba(144, 145, 227, 0.1);
-  
+    position: relative;
     white-space: nowrap;
     overflow:hidden;
-   
-    display: fixed;
+    margin-left: auto;
+    display: inline-block;
     float: left;
     text-overflow: ellipsis;
     width: 20%;
     text-align: left;
-   
+    float: left;
     padding: 20px;
     
 }
@@ -46,7 +47,7 @@ and open the template in the editor.
     height: 400px;
     text-align: left;
     clear: both;
-    vertical-align: middle;
+    
     padding: 20px;
     
     
@@ -56,10 +57,10 @@ and open the template in the editor.
     
     background-color:rgba(144, 145, 227, 0.1);
     border-radius: 5px;
-    margin: 0 auto;
-    
+    clear: none;
+    position:relative;
     display: block;
-    top: 0%;
+    margin-left: 30%;
     width: 30%;
     text-align: center;
      
@@ -69,15 +70,35 @@ and open the template in the editor.
     
     background-color:rgba(144, 145, 227, 0.1);
     border-radius: 5px;
-    margin: 0 auto;
+    margin-left: 30%;
     position:relative;
     display: block;
+    clear: none;
     top: 0%;
     width: 30%;
     text-align: left;
      
     padding: 20px;
 }
+#TopRightUsers{
+    
+    background-color:rgba(144, 145, 227, 0.1);
+    border-radius: 5px;
+    position:relative;
+    
+    clear: none;
+    margin-left: auto;
+    width: 30%;
+    text-align: left;
+    padding: 20px;
+}
+#userRecommend{
+    
+    padding: 20px;
+    border-radius: 5px;
+    border: 1px solid black;
+}
+
 #FormHead{
     color: #3578cd;    /*hex color teal*/
     display: block;
@@ -144,6 +165,7 @@ textarea{
     border-radius: 5px;
     border: 1px solid black;
 }
+
 
 hr{
     border: 0;
