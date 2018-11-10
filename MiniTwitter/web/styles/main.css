@@ -13,8 +13,8 @@ and open the template in the editor.
     border-radius: 5px;
     margin: 0 auto;
     top: 50%;
-    clear: none;
-    display: inline-block;
+    
+    display: block;
     width: 400px;
     text-align: left;
     vertical-align: middle;
