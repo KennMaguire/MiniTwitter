@@ -121,6 +121,67 @@ public class UserDB {
         
     }
  
+    
+     public static User searchByUN(String username) 
+    {
+         
+        
+        String sqlResult = "";
+        
+        String query = " select * from twitterdb.user where (username = ?) ";
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();          //exception for driver not found happens in connection pool
+         //get driver and connections
+        PreparedStatement preparedStmt = null;
+        try{
+       
+        preparedStmt = connection.prepareStatement(query);
+       
+  
+         preparedStmt.setString(1, username);
+         
+         ResultSet rs = preparedStmt.executeQuery();
+         
+         User user = new User();
+        
+         while(rs.next()){      //need while for rs.next(), but returns after first user found so only returns one user
+         user.setUserID(rs.getString("userID"));
+         user.setFullName(rs.getString("fullname"));
+         user.setUserName(rs.getString("username"));
+         user.setEmail(rs.getString("emailAddress"));
+         user.setPassword(rs.getString("password"));
+        // user.setConfirmPassword(rs.getString(""));
+         user.setBirthDate(rs.getString("birthDate"));
+         user.setQuestionNo(rs.getString("questionNo"));
+         user.setAnswer(rs.getString("answer"));
+         
+       
+            
+         return user;
+         }
+         
+         
+         
+         return null;
+         
+         }
+        catch (SQLException e) {
+            sqlResult = "<p>Error executing the SQL statement: <br>"
+                    + e.getMessage() + "</p>";
+            return null;   //return false if failed to add
+        }
+        finally
+        {
+            DBUtil.closePreparedStatement(preparedStmt);
+            pool.freeConnection(connection);
+            
+            
+        }
+         
+         
+        
+    }
+    
     public static int update(User user)
     {
         ConnectionPool pool = ConnectionPool.getInstance();
