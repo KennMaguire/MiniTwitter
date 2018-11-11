@@ -76,21 +76,40 @@ public class userPage extends HttpServlet {
 
             java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String currentTime = sdf.format(dt);
-            String mention = request.getParameter("twit");
             
-            Twit twit = new Twit();
-            twit.setUserID(userID);
-            twit.setTwit(request.getParameter("twit"));
-            twit.setTwitDate(currentTime);
-            succeed = TwitDB.insert(twit);
-            
-            Pattern p = Pattern.compile("([@][\\S]+)");
-            Matcher m = p.matcher(mention);
+           /* 
+            Pattern p = Pattern.compile("([@][\\S]+)"); regex more complicated than haadi's solution
+            Matcher m = p.matcher(twitPost);
             ArrayList<String> mentions = new ArrayList<String>();
             while(m.find())
             {
                 mentions.add(m.group(1));
             }
+*/
+            int i = 0;
+            int startInd = 0;
+            
+            String twitPost = request.getParameter("twit");
+            String newTwit = twitPost;
+            while(twitPost.indexOf("@", startInd) != -1)
+            {
+                int indexOf = twitPost.indexOf("@", startInd);
+                int indexOfLength = twitPost.indexOf(" ", indexOf+1);
+                if(indexOfLength == -1)
+                {
+                    indexOfLength = twitPost.length();
+                }
+                if((indexOfLength-indexOf) != 1){
+                String mention = twitPost.substring(indexOf,indexOfLength);
+                newTwit = newTwit.replace(mention, "<a class='blueX'> " + mention + "</a>");
+                }
+                startInd = indexOf+1;
+            }
+            Twit twit = new Twit();
+            twit.setUserID(userID);
+            twit.setTwit(newTwit);
+            twit.setTwitDate(currentTime);
+            succeed = TwitDB.insert(twit);
             
             ArrayList<Twit> twits= new ArrayList<Twit>();
             twits = TwitDB.getUserTwits(foundUser);

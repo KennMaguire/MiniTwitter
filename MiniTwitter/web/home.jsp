@@ -75,7 +75,7 @@
         <div id="twitPosts">
              <h3 id="twit"><c:out value="${user.fullName}" /></h3>
              <h3 id="twit">@<c:out value="${user.userName}" />: <p id="twitDate"> <c:out value="${twit.twitDate}" /> </p></h3> 
-             <p id="twit"><c:out value="${twit.twit}" /></p>
+             <p id="twit">${twit.twit}</p>
              <a id="deleteButton" href="userPage?action=deleteTwit&amp;twitID='${twit.twitID}'">Delete</a>
         </div>
        

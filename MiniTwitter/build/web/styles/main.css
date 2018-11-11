@@ -166,7 +166,10 @@ textarea{
     border-radius: 5px;
     border: 1px solid black;
 }
-
+.blueX{
+    color: blue;
+    
+}
 
 hr{
     border: 0;
