@@ -26,8 +26,9 @@ and open the template in the editor.
     white-space: nowrap;
     overflow:hidden;
     margin-left: auto;
-    display: inline-block;
+    display: block;
     float: left;
+    clear: none;
     text-overflow: ellipsis;
     width: 20%;
     text-align: left;
@@ -46,7 +47,7 @@ and open the template in the editor.
     width: 20%;
     height: 400px;
     text-align: left;
-    clear: both;
+    clear: left;
     
     padding: 20px;
     
@@ -85,10 +86,10 @@ and open the template in the editor.
     background-color:rgba(144, 145, 227, 0.1);
     border-radius: 5px;
     position:relative;
-    
+    float: right;
     clear: none;
     margin-left: auto;
-    width: 30%;
+    width: 20%;
     text-align: left;
     padding: 20px;
 }
@@ -239,7 +240,12 @@ hr{
     Display: block;
     color: #e91b07;
 }
-
+.divVisibleSuccess{ 
+    font-weight: bold;
+    margin-left: 10px;
+    Display: block;
+    color: blueviolet;
+}
 .spanVisible{
     font-weight: bold;
     margin-left: 10px;

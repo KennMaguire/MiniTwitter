@@ -1,10 +1,10 @@
-package util;
+package murach.util;
 
 import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.*;
 
-public class MailUtilLocal {
+public class MailUtilGmail {
 
     public static void sendMail(String to, String from,
             String subject, String body, boolean bodyIsHTML)
@@ -12,9 +12,11 @@ public class MailUtilLocal {
         
         // 1 - get a mail session
         Properties props = new Properties();
-        //props.put("mail.transport.protocol", "smtp");
-        props.put("mail.smtp.host", "localhost");
-        //props.put("mail.smtp.port", 25);        
+        props.put("mail.transport.protocol", "smtps");
+        props.put("mail.smtps.host", "smtp.gmail.com");
+        props.put("mail.smtps.port", 465);                  //ssl tls enabled connection, using 465 instead of 25
+        props.put("mail.smtps.auth", "true");
+        props.put("mail.smtps.quitwait", "false");
         Session session = Session.getDefaultInstance(props);
         session.setDebug(true);
 
@@ -34,6 +36,9 @@ public class MailUtilLocal {
         message.setRecipient(Message.RecipientType.TO, toAddress);
 
         // 4 - send the message
-        Transport.send(message);
+        Transport transport = session.getTransport();
+        transport.connect("webapptestken@gmail.com", "webapp!1");
+        transport.sendMessage(message, message.getAllRecipients());
+        transport.close();
     }
 }

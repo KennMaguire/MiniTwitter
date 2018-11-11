@@ -30,8 +30,12 @@
         <h2 id ="FormHead"> LOGIN </h2>
         
         <form action="membership" method="post">
-           
-            <div id="javaErrorMessage" class="divVisible" >  
+             <div id="javaSuccessMessage" class="divVisibleSuccess" >
+                        <c:if test="${conditionSuccess}">     
+                            <p> Email Sent! </p>
+                        </c:if>
+            </div>
+            <div id="javaErrorMessage" class="divVisible" > 
             
             <c:if test="${conditionLogin}">     
                 <p> Login Failed! </p>

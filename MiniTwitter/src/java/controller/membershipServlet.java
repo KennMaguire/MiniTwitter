@@ -11,11 +11,14 @@ import dataaccess.TwitDB;
 import dataaccess.UserDB;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Random;
+import javax.mail.MessagingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import javax.servlet.http.HttpSession;
 import murach.util.CookieUtil;
+import murach.util.MailUtilGmail;
 
 
 @WebServlet(name = "membershipServlet", urlPatterns = {"/membership"})
@@ -229,14 +232,15 @@ public class membershipServlet extends HttpServlet {
            User userCheck = UserDB.search(email);
            HttpSession session = request.getSession();
            session.setAttribute("user", null);
-           ArrayList<Twit> twits= new ArrayList<Twit>();
-           ArrayList<User> users = new ArrayList<User>();
-           twits = TwitDB.getUserTwits(userCheck);
+           ArrayList<Twit> twits= new ArrayList<Twit>();            //holds twits for user
+           ArrayList<User> users = new ArrayList<User>();           //holds users for people you may know
+           
            
            condition = false;
            url = "/login.jsp";
            if(userCheck != null && userCheck.getEmail().equals(email) && userCheck.getPassword().equals(password))
            {
+                  
 
                    if(rememberMe != null)
                     {
@@ -253,7 +257,7 @@ public class membershipServlet extends HttpServlet {
                         c3.setPath("/");                      // allow entire app to access it
                         response.addCookie(c3);
                     }
-                   
+                  twits = TwitDB.getUserTwits(userCheck);
                   users = UserDB.getAllUsers();
                   session.setAttribute("users", users);
                   request.setAttribute("users", users);
@@ -295,7 +299,82 @@ public class membershipServlet extends HttpServlet {
            
            
        }
-       
+       if(action.equals("forgotPW"))
+       {
+            
+            url = "/login.jsp";
+            String email = request.getParameter("email");
+            String questionNo = request.getParameter("questionNo");
+            String answer = request.getParameter("answer");
+            User userCheck = UserDB.search(email);
+            if(userCheck != null)
+            {
+                if(userCheck.getEmail().equals(email) && userCheck.getQuestionNo().equals(questionNo) && userCheck.getAnswer().equals(answer))
+                {
+                                                   //get random password, update in DB, send email, and pass "Email Sent" to login
+                    String RandChars= "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&";
+                    StringBuilder randPW = new StringBuilder();
+                    Random rand = new Random();
+                    while(randPW.length() < 9)
+                    {
+                        int index = (int) (rand.nextFloat() * RandChars.length());
+                        randPW.append(RandChars.charAt(index));
+                    }
+                    String tempPW = randPW.toString();          //set random String to tempPW
+                    userCheck.setPassword(tempPW);
+                    UserDB.update(userCheck);                   //update password to random string
+                    String to = email;
+                    String from = "kennethmaguire@webApp.com";
+                    String subject = "Temporary Password";
+                    String body = "Your tempory password is:" + tempPW 
+                            + "\nPlease update this password immediately after logging in.";
+                    
+                    boolean isBodyHTML = false;
+                    try
+                    {
+                        MailUtilGmail.sendMail(to, from, subject, body, isBodyHTML);
+                        condition = true;
+                        request.setAttribute("conditionSuccess", condition);
+                    }
+                    catch (MessagingException e)
+                    {
+                        String errorMessage =
+                                "ERROR: Unable to send email. " +
+                                "Check Tomcat logs for details.<br>" +
+                                "NOTE: You may need to configure your system " +
+                                "as described in chapter 14.<br>" +
+                                "ERROR MESSAGE: " + e.getMessage();
+                        request.setAttribute("errorMessage", errorMessage);
+                        this.log(
+                                "Unable to send email. \n" +
+                                        "Here is the email you tried to send: \n" +
+                                        "=====================================\n" +
+                                        "TO: " + email + "\n" +
+                                                "FROM: " + from + "\n" +
+                                                        "SUBJECT: " + subject + "\n" +
+                                                                "\n" +
+                                        body + "\n\n");
+                    } 
+                
+                }
+                else
+                {
+                    condition = true;
+                    request.setAttribute("conditionFail", condition);
+                    url = "/forgotPassword.jsp";
+                                                   //pass "information incorrect to forgotPassword
+                }
+            }
+            else
+            {
+                condition = true;
+                request.setAttribute("conditionFail", condition);
+                url = "/forgotPassword.jsp";
+                //pass "information incorrect to forgotPassword
+            }
+            
+            
+       }
 
              getServletContext()
             .getRequestDispatcher(url)

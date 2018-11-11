@@ -23,6 +23,19 @@
          <c:if test="${sessionScope.user == null}">
             <c:redirect url = "/login.jsp"/>
         </c:if>
+        
+        
+       <div id="TopRightUsers">
+           <h3> People you may know </h3>
+        <c:forEach var="user" items="${users}">
+            
+            <div id="userRecommend">
+            <h3 id="twit"><c:out value="${user.fullName}" /></h3>
+            <p>@<c:out value="${user.userName}" /></p>
+            </div>
+           
+        </c:forEach>        
+        </div>  
       <div id='pagewrapTopLeft'>
         
           <h2> 
@@ -62,22 +75,13 @@
         <div id="twitPosts">
              <h3 id="twit"><c:out value="${user.fullName}" /></h3>
              <h3 id="twit">@<c:out value="${user.userName}" />: <p id="twitDate"> <c:out value="${twit.twitDate}" /> </p></h3> 
-             <p id="twit">"<c:out value="${twit.twit}" />"</p>
-             <a id="deleteButton" href="userPage?action=deleteTwit&amp;twitID='${twit.twitID}'">delete</a>
+             <p id="twit"><c:out value="${twit.twit}" /></p>
+             <a id="deleteButton" href="userPage?action=deleteTwit&amp;twitID='${twit.twitID}'">Delete</a>
         </div>
        
     </div> 
     </c:forEach>
             
-        <div id="TopRightUsers">
-        <c:forEach var="user" items="${users}">
-            
-                <div id="userRecommend">
-            <h3><c:out value="${user.fullName}" /></h3>
-            <h3><c:out value="${user.userName}" /></h3>
-                </div>
-           
-        </c:forEach>        
-        </div>
+       
     </body>
 </html>
