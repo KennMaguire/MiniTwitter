@@ -120,8 +120,8 @@ public class TwitDB {
     {
         ArrayList<Twit> twits = new ArrayList<Twit>();
         String sqlResult = "";
-        String query = " select * from twitterdb.twits where (userID = ?) ";
-        
+        String query1 = " select * from twitterdb.twits where (userID = ?) ";
+        String query2 = " select * from twitterdb.twits where twit like ? ";
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();          //exception for driver not found happens in connection pool
          //get driver and connections
@@ -129,7 +129,7 @@ public class TwitDB {
         
         try
         {
-            preparedStmt = connection.prepareStatement(query);
+            preparedStmt = connection.prepareStatement(query1);
             preparedStmt.setString(1, user.getUserID());
             ResultSet rs = preparedStmt.executeQuery();
            
@@ -139,6 +139,20 @@ public class TwitDB {
                Twit twit = new Twit();
                twit.setUserID(rs.getString("userID"));
                twit.setTwit(rs.getString("twit"));
+               twit.setTwitDate(rs.getString("twitDate"));
+               twit.setTwitID(rs.getString("twitID"));
+               twits.add(twit);
+            }
+            
+            preparedStmt = connection.prepareStatement(query2);
+            preparedStmt.setString(1, "%" + "@" + user.getUserName() + "%");
+            rs = preparedStmt.executeQuery();
+            while(rs.next())
+            {
+               Twit twit = new Twit();
+               twit.setUserID(rs.getString("userID"));
+               User referenceUser = UserDB.searchByID(twit.getUserID());
+               twit.setTwit("posted by @" + referenceUser.getUserName() + ": <br /> <br />" + rs.getString("twit"));
                twit.setTwitDate(rs.getString("twitDate"));
                twit.setTwitID(rs.getString("twitID"));
                twits.add(twit);

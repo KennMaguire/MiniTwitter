@@ -88,12 +88,12 @@ public class userPage extends HttpServlet {
 */
             
             int startInd = 0;
-            ArrayList<User> users = new ArrayList<User>();
+            
             String twitPost = request.getParameter("twit");
             String newTwit = twitPost;
             while(twitPost.indexOf("@", startInd) != -1)
             {
-                User mentionUser = new User();
+                
                 int indexOf = twitPost.indexOf("@", startInd);
                 int indexOfLength = twitPost.indexOf(" ", indexOf+1);
                 if(indexOfLength == -1)
@@ -102,11 +102,6 @@ public class userPage extends HttpServlet {
                 }
                 if((indexOfLength-indexOf) != 1){
                 String mention = twitPost.substring(indexOf,indexOfLength);
-                mentionUser = UserDB.searchByUN(twitPost.substring(indexOf+1,indexOfLength));
-                    if(mentionUser != null)
-                    {
-                        users.add(mentionUser);
-                    }
                 newTwit = newTwit.replace(mention, "<a class='blueX'> " + mention + "</a>");
                 }
                 startInd = indexOf+1;
@@ -116,18 +111,7 @@ public class userPage extends HttpServlet {
             twit.setTwit(newTwit);
             twit.setTwitDate(currentTime);
             succeed = TwitDB.insert(twit);
-            int i = 0;
-            while(i < users.size())
-            {
-                Twit mentionTwit = new Twit();
-                User mentionUser = new User();
-                mentionUser = users.get(i);
-                mentionTwit.setUserID(mentionUser.getUserID());
-                mentionTwit.setTwit(newTwit);
-                mentionTwit.setTwitDate(currentTime);
-                succeed = TwitDB.insert(mentionTwit);
-                i++;
-            }
+            
             
             ArrayList<Twit> twits= new ArrayList<Twit>();
             twits = TwitDB.getUserTwits(foundUser);

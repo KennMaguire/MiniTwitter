@@ -18,10 +18,13 @@ public class Twit implements Serializable{
     private String userID;
     private String twitDate;
     
+    
+    
     public Twit()
     {
         
     }
+    
     
     public void setTwitID(String twitID)
     {
