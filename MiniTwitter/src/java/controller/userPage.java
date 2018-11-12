@@ -125,7 +125,7 @@ public class userPage extends HttpServlet {
                 mentionTwit.setUserID(mentionUser.getUserID());
                 mentionTwit.setTwit(newTwit);
                 mentionTwit.setTwitDate(currentTime);
-                succeed = TwitDB.insert(twit);
+                succeed = TwitDB.insert(mentionTwit);
                 i++;
             }
             
