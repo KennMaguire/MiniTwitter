@@ -179,18 +179,22 @@ function validateForm()
         var lowerC = false;
         var upperC = false;
         var numC = false;
+        var lengthC = false;
         resetFormForChecks();
 
 
         lowerC = /[a-z]+/.test(pword);              //regex for lowercase [a-z] + means one or more
         upperC = /[A-Z]+/.test(pword);              //regex for uppercase [A-Z]
         numC = /\d+/.test(pword);                   //regex for digit     \d
-        
-        
-        
-        if(lowerC === false || upperC === false || numC === false)
+        if(pword.length > 7)
         {
-            var errorHtml = "<p>Password must contain the following minimum chars: 1 lower case, 1 upper case, and 1 digit</p>";
+            lengthC = true;
+        }
+        
+        
+        if(lowerC === false || upperC === false || numC === false || lengthC === false)
+        {
+            var errorHtml = "<p>Password must contain the following minimum qualities: 1 lower case, 1 upper case, 1 digit and be at least 8 characters long</p>";
             makeDivErrorVisible(errorHtml);
             var pwordName = pwordObj.name;
             makeSpanErrorVisible(pwordName);

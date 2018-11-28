@@ -10,6 +10,7 @@ import business.User;
 import dataaccess.TwitDB;
 import dataaccess.UserDB;
 import java.io.*;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.mail.MessagingException;
@@ -19,6 +20,7 @@ import javax.servlet.http.*;
 import javax.servlet.http.HttpSession;
 import murach.util.CookieUtil;
 import murach.util.MailUtilGmail;
+import util.HashPasswordUtil;
 
 
 @WebServlet(name = "membershipServlet", urlPatterns = {"/membership"})
@@ -78,8 +80,8 @@ public class membershipServlet extends HttpServlet {
 
           user.setFullName(fullName);
           user.setUserName(userName);
-          user.setEmail(email);
-          user.setPassword(password);
+          user.setEmail(email);                   
+          //will hash password for user before adding to DB
           user.setConfirmPassword(confirmPassword);
           user.setBirthDate(birthDate);
           user.setQuestionNo(questionNo);
@@ -130,6 +132,19 @@ public class membershipServlet extends HttpServlet {
                     
                     request.setAttribute("user", user);
                     url = "/home.jsp";
+                    String saltAndHashedPassword = "";      
+                    String salt = HashPasswordUtil.getSalt();       //get salt value
+                    
+                    
+                    try{
+                    saltAndHashedPassword = HashPasswordUtil.hashPassword(password + salt); //use salt plus password to get hashed value in DB
+                    user.setPassword(saltAndHashedPassword);        //set hashed password for password to be stored in DB
+                    user.setSalt(salt); //set salt for adding to db
+                    }
+                    catch(NoSuchAlgorithmException ex)
+                    {
+                        saltAndHashedPassword = ex.getMessage();
+                    }
                     UserDB.insert(user);
                 }
 
@@ -204,13 +219,29 @@ public class membershipServlet extends HttpServlet {
                 user.setFullName(fullName);
                 user.setUserName(userName);
                 user.setEmail(email);
-                user.setPassword(password);
+                //setting password after hashing
                 user.setConfirmPassword(confirmPassword);
                 user.setBirthDate(birthDate);
                 user.setQuestionNo(questionNo);
                 user.setAnswer(answer);
-                result = UserDB.update(user);
-                if(result != 0)
+                String saltAndHashedPassword = "";      
+                String salt = HashPasswordUtil.getSalt();       //get salt value
+                
+                
+                try{
+                    saltAndHashedPassword = HashPasswordUtil.hashPassword(password + salt); //use salt plus password to get hashed value in DB
+                    user.setPassword(saltAndHashedPassword);        //set hashed password for password to be stored in DB
+                    user.setSalt(salt); //set salt for adding to db
+                }
+                catch(NoSuchAlgorithmException ex)
+                {
+                    saltAndHashedPassword = ex.getMessage();
+                }
+                
+                
+                
+                result = UserDB.update(user);           //update User
+                if(result != 0)     //
                 {
                     HttpSession session = request.getSession();
                     session.setAttribute("user", user);
@@ -238,7 +269,19 @@ public class membershipServlet extends HttpServlet {
            
            condition = false;
            url = "/login.jsp";
-           if(userCheck != null && userCheck.getEmail().equals(email) && userCheck.getPassword().equals(password))
+           String saltAndHashedPassword = "";
+           String salt = userCheck.getSalt();
+           try{
+                    
+              saltAndHashedPassword = HashPasswordUtil.hashPassword(password + salt); //use salt plus password to get hashed value in DB        
+           }
+           catch(NoSuchAlgorithmException ex)
+           {
+               saltAndHashedPassword = ex.getMessage();
+           }
+           
+           //need to check if user is null, email is the same email, and the hash value matches the one stored in the DB for password
+           if(userCheck != null && userCheck.getEmail().equals(email) && userCheck.getPassword().equals(saltAndHashedPassword)) 
            {
                   
 
@@ -321,12 +364,26 @@ public class membershipServlet extends HttpServlet {
                         randPW.append(RandChars.charAt(index));
                     }
                     String tempPW = randPW.toString();          //set random String to tempPW
-                    userCheck.setPassword(tempPW);
+                    
+                    
+                    String saltAndHashedPassword = "";      
+                    String salt = HashPasswordUtil.getSalt();       //get salt value
+                    
+                    
+                    try{
+                    saltAndHashedPassword = HashPasswordUtil.hashPassword(tempPW + salt); //use salt plus password to get hashed value in DB
+                    userCheck.setPassword(saltAndHashedPassword);        //set hashed password for password to be stored in DB
+                    userCheck.setSalt(salt); //set salt for adding to db
+                    }
+                    catch(NoSuchAlgorithmException ex)
+                    {
+                        saltAndHashedPassword = ex.getMessage();
+                    }
                     UserDB.update(userCheck);                   //update password to random string
                     String to = email;
                     String from = "kennethmaguire@webApp.com";
                     String subject = "Temporary Password";
-                    String body = "Your tempory password is:" + tempPW 
+                    String body = "Your tempory password is: " + tempPW 
                             + "\nPlease update this password immediately after logging in.";
                     
                     boolean isBodyHTML = false;

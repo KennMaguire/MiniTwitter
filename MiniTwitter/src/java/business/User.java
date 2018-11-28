@@ -23,6 +23,7 @@ public class User implements Serializable {
     private String birthDate;
     private String questionNo;
     private String answer;
+    private String salt;
     public User()
     {
         fullName = "";
@@ -40,9 +41,11 @@ public class User implements Serializable {
         this.setAnswer(data[6]);
         this.setConfirmPassword(data[7]);
         this.setUserID(data[8]);
+        this.setSalt(data[9]);
     
         
     }
+   
     public void setUserID(String userID)
     {
         this.userID = userID;
@@ -115,6 +118,14 @@ public class User implements Serializable {
     public String getConfirmPassword()
     {
         return this.confirmPassword;
+    }
+    public void setSalt(String salt)
+    {
+        this.salt = salt;
+    }
+    public String getSalt()
+    {
+        return this.salt;
     }
     @Override
     public String toString()
