@@ -8,6 +8,14 @@
         <servlet-name>userPage</servlet-name>
         <servlet-class>controller.userPage</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CheckPassword</servlet-name>
+        <servlet-class>controller.CheckPassword</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HashPasswordUtil</servlet-name>
+        <servlet-class>util.HashPasswordUtil</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>startPage</servlet-name>
         <url-pattern>/startPage</url-pattern>
@@ -19,6 +27,14 @@
     <servlet-mapping>
         <servlet-name>userPage</servlet-name>
         <url-pattern>/userPage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CheckPassword</servlet-name>
+        <url-pattern>/CheckPassword</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HashPasswordUtil</servlet-name>
+        <url-pattern>/HashPasswordUtil</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>
