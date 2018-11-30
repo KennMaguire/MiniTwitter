@@ -27,12 +27,12 @@
         
        <div id="TopRightUsers">
            <h3> People you may know </h3>
-        <c:forEach var="user" items="${users}">
+        <c:forEach var="users" items="${users}">
             
-            <div id="userRecommend">
-            <h3 id="twit"><c:out value="${user.fullName}" /></h3>
-            <p>@<c:out value="${user.userName}" /></p>
-            </div>
+        <div id="userRecommend">
+                    <h3 id="twit"><c:out value="${users.fullName}" /></h3>
+                    <p>@<c:out value="${users.userName}" /></p> 
+        </div>
            
         </c:forEach>        
         </div>  

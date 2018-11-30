@@ -2,6 +2,16 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/Users/kennethmaguire/School%20Work/Web%20Applications/Web%20Prog%20Assig/FinalAssignment/MiniTwitter/src/java/dataaccess/UserDB.java</file>
+            <file>file:/Users/kennethmaguire/School%20Work/Web%20Applications/Web%20Prog%20Assig/FinalAssignment/MiniTwitter/web/signup.jsp</file>
+            <file>file:/Users/kennethmaguire/School%20Work/Web%20Applications/Web%20Prog%20Assig/FinalAssignment/MiniTwitter/src/java/util/HashPasswordUtil.java</file>
+            <file>file:/Users/kennethmaguire/School%20Work/Web%20Applications/Web%20Prog%20Assig/FinalAssignment/MiniTwitter/web/styles/main.css</file>
+            <file>file:/Users/kennethmaguire/School%20Work/Web%20Applications/Web%20Prog%20Assig/FinalAssignment/MiniTwitter/src/java/controller/membershipServlet.java</file>
+            <file>file:/Users/kennethmaguire/School%20Work/Web%20Applications/Web%20Prog%20Assig/FinalAssignment/MiniTwitter/src/java/controller/startPage.java</file>
+            <file>file:/Users/kennethmaguire/School%20Work/Web%20Applications/Web%20Prog%20Assig/FinalAssignment/MiniTwitter/web/update.jsp</file>
+            <file>file:/Users/kennethmaguire/School%20Work/Web%20Applications/Web%20Prog%20Assig/FinalAssignment/MiniTwitter/web/scripts/main.js</file>
+            <file>file:/Users/kennethmaguire/School%20Work/Web%20Applications/Web%20Prog%20Assig/FinalAssignment/MiniTwitter/src/java/business/User.java</file>
+        </group>
     </open-files>
 </project-private>

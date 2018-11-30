@@ -278,7 +278,7 @@ public class UserDB {
         Connection connection = pool.getConnection();
         PreparedStatement preparedStmt = null;
         String sqlResult = "";
-        String query = " select fullname, username from twitterdb.user ";
+        String query = " select * from twitterdb.user ";
         String fullname;
         ArrayList<User> users = new ArrayList<User>();
         try{
@@ -288,8 +288,17 @@ public class UserDB {
          while(rs.next())
          {
              User user = new User();
+             user.setUserID(rs.getString("userID"));
              user.setFullName(rs.getString("fullname"));
              user.setUserName(rs.getString("username"));
+             
+             user.setEmail(rs.getString("emailAddress"));
+             user.setPassword(rs.getString("password"));
+             // user.setConfirmPassword(rs.getString(""));
+             user.setBirthDate(rs.getString("birthDate"));
+             user.setQuestionNo(rs.getString("questionNo"));
+             user.setAnswer(rs.getString("answer"));
+             user.setSalt(rs.getString("salt"));
              users.add(user);
          }
          return users;

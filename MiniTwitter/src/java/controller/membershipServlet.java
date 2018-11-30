@@ -302,6 +302,7 @@ public class membershipServlet extends HttpServlet {
                     }
                   twits = TwitDB.getUserTwits(userCheck);
                   users = UserDB.getAllUsers();
+                  users.remove(userCheck);
                   session.setAttribute("users", users);
                   request.setAttribute("users", users);
                   request.setAttribute("user", userCheck);

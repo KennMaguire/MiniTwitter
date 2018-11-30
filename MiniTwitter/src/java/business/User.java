@@ -5,6 +5,7 @@
  */
 package business;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  *
@@ -46,10 +47,25 @@ public class User implements Serializable {
         
     }
    
+    @Override
+    public boolean equals(Object user) {  //https://stackoverflow.com/questions/12697407/arraylist-remove-is-not-removing-an-object
+        if (user == null) return false;  
+        if(!(user instanceof User)) return false;
+        User use = (User) user;
+        return use.userName.equals(this.userName);    
+    }
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 29 * hash + Objects.hashCode(this.userName);
+        return hash;
+    }
     public void setUserID(String userID)
     {
         this.userID = userID;
     }
+
+    
     public String getUserID()
     {
         return this.userID;
