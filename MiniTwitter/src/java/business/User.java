@@ -25,10 +25,12 @@ public class User implements Serializable {
     private String questionNo;
     private String answer;
     private String salt;
+    private boolean followed;
     public User()
     {
         fullName = "";
         email = "";
+        followed = false;
     }
     public User(String fromString)
     {
@@ -142,6 +144,15 @@ public class User implements Serializable {
     public String getSalt()
     {
         return this.salt;
+    }
+    
+    public void setFollowed(boolean followed)
+    {
+        this.followed = followed;
+    }
+    public boolean getFollowed()
+    {
+        return this.followed;
     }
     @Override
     public String toString()

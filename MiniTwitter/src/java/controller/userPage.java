@@ -7,6 +7,8 @@ package controller;
 
 import business.Twit;
 import business.User;
+import business.Follow;
+import dataaccess.FollowDB;
 import dataaccess.TwitDB;
 import dataaccess.UserDB;
 import java.io.IOException;
@@ -16,7 +18,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.regex.*;
 /**
  *
  * @author kennethmaguire
@@ -43,6 +44,7 @@ public class userPage extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -113,12 +115,7 @@ public class userPage extends HttpServlet {
             succeed = TwitDB.insert(twit);
             
             
-            ArrayList<Twit> twits= new ArrayList<Twit>();
-            twits = TwitDB.getUserTwits(foundUser);
-            request.setAttribute("twitNumber", twits.size());
-            session.setAttribute("twitNumber", twits.size());
-            request.setAttribute("twits", twits);
-            session.setAttribute("twits", twits);
+           
             
         }
         if(action.equals("deleteTwit"))
@@ -130,15 +127,72 @@ public class userPage extends HttpServlet {
             twit = TwitDB.getTwitByID(twit.getTwitID());
            // twit.setUserID(request.getParameter("userID"));
             TwitDB.delete(twit);
-            ArrayList<Twit> twits= new ArrayList<Twit>();
-            twits = TwitDB.getUserTwits(foundUser);
-            request.setAttribute("twitNumber", twits.size());
-            session.setAttribute("twitNumber", twits.size());
-            request.setAttribute("twits", twits);
-            session.setAttribute("twits", twits);
+           
             
         }
-        
+        if(action.equals("follow"))
+        {
+            
+            Follow follow = new Follow();
+            ArrayList<User> users = new ArrayList<User>();           //holds users for people you may know
+            users = UserDB.getAllUsers();
+            users.remove(foundUser);
+            java.util.Date dt = new java.util.Date();   //found at https://stackoverflow.com/questions/2400955/how-to-store-java-date-to-mysql-datetime
+
+            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String currentTime = sdf.format(dt);
+            
+            
+            String userID = foundUser.getUserID();
+            
+            follow.setUserID(userID);
+            String followUserID = request.getParameter("followUserID");
+            followUserID = followUserID.replace("'", "");
+            follow.setFollowUserID(followUserID); 
+            follow.setDateFollowed(currentTime);
+            FollowDB.insert(follow);
+            
+            follow.whichUsersFollowed(users, foundUser);
+            
+            session.setAttribute("users",users); //have to set users again since follow is updated
+            request.setAttribute("users",users);
+            
+            
+        }
+        if(action.equals("unfollow"))
+        {
+              Follow follow = new Follow();
+            ArrayList<User> users = new ArrayList<User>();           //holds users for people you may know
+            users = UserDB.getAllUsers();
+            users.remove(foundUser);
+            java.util.Date dt = new java.util.Date();   //found at https://stackoverflow.com/questions/2400955/how-to-store-java-date-to-mysql-datetime
+
+            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String currentTime = sdf.format(dt);
+            
+            
+            String userID = foundUser.getUserID();
+            
+            follow.setUserID(userID);
+            String followUserID = request.getParameter("followUserID");
+            followUserID = followUserID.replace("'", "");
+            follow.setFollowUserID(followUserID); 
+            follow.setDateFollowed(currentTime);
+            FollowDB.delete(follow);
+            
+            follow.whichUsersFollowed(users, foundUser);
+            
+            session.setAttribute("users",users); //have to set users again since follow is updated
+            request.setAttribute("users",users);
+           
+        }
+         ArrayList<Twit> twits= new ArrayList<Twit>();
+         twits = TwitDB.getUserTwits(foundUser);
+         request.setAttribute("twitNumber", twits.size());
+         session.setAttribute("twitNumber", twits.size());
+         request.setAttribute("twits", twits);                  //gets all twits for user after each action
+         session.setAttribute("twits", twits);
+            
           getServletContext()
             .getRequestDispatcher(url)
             .forward(request, response);

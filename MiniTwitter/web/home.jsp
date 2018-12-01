@@ -26,12 +26,25 @@
         
         
        <div id="TopRightUsers">
-           <h3> People you may know </h3>
-        <c:forEach var="users" items="${users}">
+           <h3> Who to Follow </h3>
+        <c:forEach var="users" items="${users}" >
+        
             
         <div id="userRecommend">
                     <h3 id="twit"><c:out value="${users.fullName}" /></h3>
                     <p>@<c:out value="${users.userName}" /></p> 
+               
+                    <c:choose>
+                        <c:when test="${users.followed}">
+                            <a href="userPage?action=unfollow&amp;followUserID='${users.userID}'" ><button>Unfollow</button></a>
+                        </c:when>
+                        <c:otherwise>
+                            <!--<input type="hidden" name="action" value="follow">-->
+                            <a href="userPage?action=follow&amp;followUserID='${users.userID}'" ><button>Follow</button></a>
+                        </c:otherwise>
+                        
+                    </c:choose>
+                    
         </div>
            
         </c:forEach>        
@@ -76,7 +89,7 @@
              <h3 id="twit"><c:out value="${user.fullName}" /></h3>
              <h3 id="twit">@<c:out value="${user.userName}" />: <p id="twitDate"> <c:out value="${twit.twitDate}" /> </p></h3> 
              <p id="twit">${twit.twit}</p>
-             <a id="deleteButton" href="userPage?action=deleteTwit&amp;twitID='${twit.twitID}'">Delete</a>
+             <a id="deleteButton" href="userPage?action=deleteTwit&amp;twitID=${twit.twitID}">Delete</a>
         </div>
        
     </div> 

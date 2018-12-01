@@ -5,6 +5,7 @@
  */
 package controller;
 
+import business.Follow;
 import business.Twit;
 import business.User;
 import dataaccess.TwitDB;
@@ -302,7 +303,9 @@ public class membershipServlet extends HttpServlet {
                     }
                   twits = TwitDB.getUserTwits(userCheck);
                   users = UserDB.getAllUsers();
+                  Follow follow = new Follow();
                   users.remove(userCheck);
+                  follow.whichUsersFollowed(users, userCheck);
                   session.setAttribute("users", users);
                   request.setAttribute("users", users);
                   request.setAttribute("user", userCheck);
