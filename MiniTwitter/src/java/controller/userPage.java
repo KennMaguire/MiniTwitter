@@ -104,7 +104,7 @@ public class userPage extends HttpServlet {
                 }
                 if((indexOfLength-indexOf) != 1){
                 String mention = twitPost.substring(indexOf,indexOfLength);
-                newTwit = newTwit.replace(mention, "<a class='blueX'> " + mention + "</a>");
+                newTwit = newTwit.replace(mention, "<a class='blueX'> " + mention + " </a>");
                 }
                 startInd = indexOf+1;
             }

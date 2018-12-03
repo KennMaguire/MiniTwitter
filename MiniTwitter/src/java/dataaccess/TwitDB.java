@@ -145,7 +145,7 @@ public class TwitDB {
             }
             
             preparedStmt = connection.prepareStatement(query2);
-            preparedStmt.setString(1, "%" + "@" + user.getUserName() + "%");
+            preparedStmt.setString(1, "%" + "@" + user.getUserName() + " %"); //included the " " to prevent getting users with similar names
             rs = preparedStmt.executeQuery();
             while(rs.next())
             {
