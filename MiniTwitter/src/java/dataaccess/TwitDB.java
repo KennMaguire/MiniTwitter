@@ -116,6 +116,53 @@ public class TwitDB {
         
                 
     }
+    public static Twit getTwitByDate(String twitDate)
+    {
+        Twit twit = new Twit();
+        String sqlResult = "";
+        String query = " select * from twitterdb.twits where (twitDate = ?) ";
+        
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();          //exception for driver not found happens in connection pool
+         //get driver and connections
+        PreparedStatement preparedStmt = null;
+        
+        try
+        {
+           
+            preparedStmt = connection.prepareStatement(query);
+            preparedStmt.setString(1, twitDate);
+            ResultSet rs = preparedStmt.executeQuery();
+            
+            while(rs.next())
+            {
+               
+               twit.setUserID(rs.getString("userID"));
+               twit.setTwit(rs.getString("twit"));
+               twit.setTwitDate(rs.getString("twitDate"));
+               twit.setTwitID(rs.getString("twitID"));
+               return twit;
+            }
+            
+            
+        }
+        catch(SQLException e)
+        {
+            sqlResult = "<p>Error executing the SQL statement: <br>"
+                    + e.getMessage() + "</p>";
+            return null;   //return false if failed to add  
+        }
+        finally
+        {
+            DBUtil.closePreparedStatement(preparedStmt);
+            pool.freeConnection(connection);
+            
+            
+        }
+        return null;
+        
+                
+    }
     public static ArrayList<Twit> getUserTwits(User user)
     {
         ArrayList<Twit> twits = new ArrayList<Twit>();
@@ -180,6 +227,7 @@ public class TwitDB {
         
         
     }
+    
     public static int delete(Twit twit) throws IOException,
             ServletException
     {

@@ -8,11 +8,14 @@ package controller;
 import business.Twit;
 import business.User;
 import business.Follow;
+import business.Hashtag;
 import dataaccess.FollowDB;
+import dataaccess.HashtagDB;
 import dataaccess.TwitDB;
 import dataaccess.UserDB;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -93,28 +96,73 @@ public class userPage extends HttpServlet {
             
             String twitPost = request.getParameter("twit");
             String newTwit = twitPost;
+            ArrayList<Hashtag> hashtags = new ArrayList<Hashtag>();
             while(twitPost.indexOf("@", startInd) != -1)
             {
                 
-                int indexOf = twitPost.indexOf("@", startInd);
-                int indexOfLength = twitPost.indexOf(" ", indexOf+1);
-                if(indexOfLength == -1)
+                int indexOf = twitPost.indexOf("@", startInd);              //get the indices of the mention
+                int indexOfLength = twitPost.indexOf(" ", indexOf+1);      
+                if(indexOfLength == -1)                                     
                 {
-                    indexOfLength = twitPost.length();
+                    indexOfLength = twitPost.length();                      
                 }
                 if((indexOfLength-indexOf) != 1){
-                String mention = twitPost.substring(indexOf,indexOfLength);
-                newTwit = newTwit.replace(mention, "<a class='blueX'> " + mention + " </a>");
+                String mention = twitPost.substring(indexOf,indexOfLength);  
+                newTwit = newTwit.replace(mention, "<a class='blueX'> " + mention + " </a>");       
                 }
                 startInd = indexOf+1;
             }
+            
+            while(twitPost.indexOf("#", startInd) != -1)
+            {
+                int indexOf = twitPost.indexOf("#", startInd);
+                int indexOfLength = twitPost.indexOf(" ", indexOf+1);
+                if(indexOfLength == -1)                                     
+                {
+                    indexOfLength = twitPost.length();                      
+                }
+                if((indexOfLength - indexOf) != 1){
+                    String hashtagText = twitPost.substring(indexOf,indexOfLength);
+                    newTwit = newTwit.replace(hashtagText, "<a href='hashtag.jsp' class='bluex'> " + hashtagText +" </a> ");  //create link for hashtags
+                    //check if hashtag exists. if it does, add 1 to count if not insert hashtag in hashtag table 
+                    //either way, insert in tweetHashtag
+                    Hashtag hashtag = new Hashtag();
+                   
+                    hashtag = HashtagDB.search(hashtagText);
+                    if(hashtag != null)
+                    {
+                        int plusOne = Integer.parseInt(hashtag.getHashtagCount()) + 1;
+                        hashtag.setHashtagCount(Integer.toString(plusOne));
+                        HashtagDB.addOne(hashtag);
+                    }
+                    else
+                    {
+                        hashtag = new Hashtag();
+                        hashtag.setHashtagCount("1");
+                        hashtag.setHashtagText(hashtagText);
+                        HashtagDB.insertHashtag(hashtag);
+                        
+                    }
+                    hashtags.add(hashtag);
+                }
+                startInd = indexOf + 1;
+            }
+            
             Twit twit = new Twit();
             twit.setUserID(userID);
             twit.setTwit(newTwit);
             twit.setTwitDate(currentTime);
             succeed = TwitDB.insert(twit);
             
-            
+            for(int i = 0; i < hashtags.size(); i++)
+            {
+                Hashtag hashtag = HashtagDB.search(hashtags.get(i).getHashtagText());
+                String hashtagID = hashtag.getHashtagID();
+                twit = TwitDB.getTwitByDate(twit.getTwitDate());
+                String twitID = twit.getTwitID();
+                HashtagDB.insertTweetHashtag(hashtagID, twitID);
+                
+            }
            
             
         }
