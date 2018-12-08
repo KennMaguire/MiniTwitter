@@ -6,13 +6,14 @@
 package dataaccess;
 
 import business.Hashtag;
+import business.TweetHashtags;
 import business.Twit;
-import business.User;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import util.DBUtil;
 
@@ -115,13 +116,65 @@ public class HashtagDB {
          ResultSet rs = preparedStmt.executeQuery();
          Hashtag hashtag = new Hashtag();
          while(rs.next()){      //need while for rs.next(), but returns after first user found so only returns one user
-         hashtag.setHashtagID(rs.getString("hashtagID"));
-         hashtag.setHashtagText(rs.getString("hashtagText"));
-         hashtag.setHashtagCount(rs.getString("hashtagCount"));  
-         return hashtag;
+             hashtag.setHashtagID(rs.getString("hashtagID"));
+             hashtag.setHashtagText(rs.getString("hashtagText"));
+             hashtag.setHashtagCount(rs.getString("hashtagCount"));
+             return hashtag;
        
          }
          return null;
+         
+         }
+        catch (SQLException e) {
+            sqlResult = "<p>Error executing the SQL statement: <br>"
+                    + e.getMessage() + "</p>";
+            return null;   //return false if failed to add
+        }
+        finally
+        {
+            DBUtil.closePreparedStatement(preparedStmt);
+            pool.freeConnection(connection);
+            
+            
+        }
+         
+         
+        
+    }
+ public static ArrayList<TweetHashtags> getHashtagTwits(String hashtagID) 
+    {
+         
+        ArrayList<TweetHashtags> tweetHashtags = new ArrayList<TweetHashtags>();
+        
+
+        String sqlResult = "";
+        
+        String query = " select * from twitterdb.tweetHashtag where (hashtagID = ?) ";
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();          //exception for driver not found happens in connection pool
+         //get driver and connections
+        PreparedStatement preparedStmt = null;
+        try{
+       
+         preparedStmt = connection.prepareStatement(query);
+         preparedStmt.setString(1, hashtagID);
+         ResultSet rs = preparedStmt.executeQuery();
+         
+         while(rs.next()){      //need while for rs.next(), but returns after first user found so only returns one user
+             TweetHashtags tweetHashtag = new TweetHashtags();
+             tweetHashtag.setTweetID(rs.getString("tweetID"));
+             tweetHashtag.setHashtagID(rs.getString("hashtagID"));
+             tweetHashtags.add(tweetHashtag);
+             
+         }
+         if(tweetHashtags.size() != 0)
+         {
+             return tweetHashtags;
+         }
+         else
+         {
+             return null;
+         }
          
          }
         catch (SQLException e) {

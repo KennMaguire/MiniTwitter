@@ -5,17 +5,18 @@
  */
 package controller;
 
+
 import business.Twit;
 import business.User;
 import business.Follow;
 import business.Hashtag;
+import business.TweetHashtags;
 import dataaccess.FollowDB;
 import dataaccess.HashtagDB;
 import dataaccess.TwitDB;
 import dataaccess.UserDB;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -123,7 +124,7 @@ public class userPage extends HttpServlet {
                 }
                 if((indexOfLength - indexOf) != 1){
                     String hashtagText = twitPost.substring(indexOf,indexOfLength);
-                    newTwit = newTwit.replace(hashtagText, "<a href='hashtag.jsp' class='bluex'> " + hashtagText +" </a> ");  //create link for hashtags
+                    newTwit = newTwit.replace(hashtagText, "<a href='userPage?action=getHashtags&amp;var hashtagText='"+ hashtagText + "' class='bluex'> " + hashtagText + " </a> ");  //create link for hashtags
                     //check if hashtag exists. if it does, add 1 to count if not insert hashtag in hashtag table 
                     //either way, insert in tweetHashtag
                     Hashtag hashtag = new Hashtag();
@@ -209,7 +210,7 @@ public class userPage extends HttpServlet {
         }
         if(action.equals("unfollow"))
         {
-              Follow follow = new Follow();
+            Follow follow = new Follow();
             ArrayList<User> users = new ArrayList<User>();           //holds users for people you may know
             users = UserDB.getAllUsers();
             users.remove(foundUser);
@@ -234,6 +235,33 @@ public class userPage extends HttpServlet {
             request.setAttribute("users",users);
            
         }
+        if(action.equals("getHashtags"))  
+        {
+            //just realizing now that I could've saved a lot of the steps below by creating a view (joing twits on tweetHashtags where twitID = tweetID)...
+            
+            
+            //still not getting the hashtag text, might need to create view so that I can all twits and hashtags
+            String hashtagText = request.getParameter("hashtagText");       //get the hashtag text
+            Hashtag hashtag = new Hashtag();                                //get he ID of the hashTag from DB
+            hashtag = HashtagDB.search(hashtagText);
+            url = "/hashtags.jsp";
+            ArrayList<TweetHashtags> tweetHashtags = new ArrayList<TweetHashtags>();
+            tweetHashtags = HashtagDB.getHashtagTwits(hashtag.getHashtagID());          //get list of twitIDs with including specified hashtag
+            ArrayList<Twit> twits = new ArrayList<Twit>();
+            for(int i = 0; i < tweetHashtags.size(); i++)                       
+            {
+                Twit twit = new Twit();
+                twit = TwitDB.getTwitByID(tweetHashtags.get(i).getTweetID());
+                if(twit != null)
+                    twits.add(twit);
+            }
+            request.setAttribute("twitsWHashtags", twits); //return all twits with the selected hashtag
+            
+            
+            
+            
+        }
+        
          ArrayList<Twit> twits= new ArrayList<Twit>();
          twits = TwitDB.getUserTwits(foundUser);
          request.setAttribute("twitNumber", twits.size());
@@ -244,10 +272,11 @@ public class userPage extends HttpServlet {
           getServletContext()
             .getRequestDispatcher(url)
             .forward(request, response);
-        
+     
+     
         
     }
-
+    
     
 
 }
