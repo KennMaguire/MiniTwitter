@@ -124,17 +124,19 @@ public class userPage extends HttpServlet {
                 }
                 if((indexOfLength - indexOf) != 1){
                     String hashtagText = twitPost.substring(indexOf,indexOfLength);
-                    newTwit = newTwit.replace(hashtagText, "<a href='userPage?action=getHashtags&amp;var hashtagText='"+ hashtagText + "' class='bluex'> " + hashtagText + " </a> ");  //create link for hashtags
+                   
                     //check if hashtag exists. if it does, add 1 to count if not insert hashtag in hashtag table 
                     //either way, insert in tweetHashtag
                     Hashtag hashtag = new Hashtag();
-                   
+                    String hashtagID = "0";
                     hashtag = HashtagDB.search(hashtagText);
                     if(hashtag != null)
                     {
                         int plusOne = Integer.parseInt(hashtag.getHashtagCount()) + 1;
-                        hashtag.setHashtagCount(Integer.toString(plusOne));
+                        hashtag.setHashtagCount(Integer.toString(plusOne));         //add one to count
+                        hashtagID = hashtag.getHashtagID();         //need hashtagID to reference hashtag when going to hashtag.jsp
                         HashtagDB.addOne(hashtag);
+                        
                     }
                     else
                     {
@@ -142,8 +144,10 @@ public class userPage extends HttpServlet {
                         hashtag.setHashtagCount("1");
                         hashtag.setHashtagText(hashtagText);
                         HashtagDB.insertHashtag(hashtag);
-                        
+                        hashtag = HashtagDB.search(hashtagText);
+                        hashtagID = hashtag.getHashtagID();         //need hashtagID to reference hashtag when going to hashtag.jsp
                     }
+                    newTwit = newTwit.replace(hashtagText, "<a href='userPage?action=getHashtags&amp;hashtagID="+ hashtagID + "' class='bluex'> " + hashtagText + " </a> ");  //create link for hashtags
                     hashtags.add(hashtag);
                 }
                 startInd = indexOf + 1;
@@ -241,12 +245,11 @@ public class userPage extends HttpServlet {
             
             
             //still not getting the hashtag text, might need to create view so that I can all twits and hashtags
-            String hashtagText = request.getParameter("hashtagText");       //get the hashtag text
-            Hashtag hashtag = new Hashtag();                                //get he ID of the hashTag from DB
-            hashtag = HashtagDB.search(hashtagText);
-            url = "/hashtags.jsp";
+            String hashtagID = request.getParameter("hashtagID");       //get the hashtag ID
+                                                                         
+            url = "/hashtag.jsp";
             ArrayList<TweetHashtags> tweetHashtags = new ArrayList<TweetHashtags>();
-            tweetHashtags = HashtagDB.getHashtagTwits(hashtag.getHashtagID());          //get list of twitIDs with including specified hashtag
+            tweetHashtags = HashtagDB.getHashtagTwits(hashtagID);          //get list of twitIDs with including specified hashtag
             ArrayList<Twit> twits = new ArrayList<Twit>();
             for(int i = 0; i < tweetHashtags.size(); i++)                       
             {
