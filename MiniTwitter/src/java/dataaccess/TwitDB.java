@@ -7,6 +7,7 @@ package dataaccess;
 
 import business.Twit;
 import business.User;
+import business.UserTwit;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,7 +23,7 @@ import util.DBUtil;
  *
  * @author kennethmaguire
  */
-class SortByDate implements Comparator<Twit> 
+class SortByDateTwit implements Comparator<Twit> 
 { 
    
     public int compare(Twit a, Twit b) 
@@ -30,6 +31,7 @@ class SortByDate implements Comparator<Twit>
         return b.getTwitDate().compareTo(a.getTwitDate()); 
     } 
 }
+
 public class TwitDB {
     public static boolean insert(Twit twit) throws IOException,
             ServletException
@@ -96,7 +98,7 @@ public class TwitDB {
                twit.setTwitID(rs.getString("twitID"));
                return twit;
             }
-            
+            return null;
             
         }
         catch(SQLException e)
@@ -112,7 +114,7 @@ public class TwitDB {
             
             
         }
-        return null;
+     
         
                 
     }
@@ -204,7 +206,7 @@ public class TwitDB {
                twit.setTwitID(rs.getString("twitID"));
                twits.add(twit);
             }
-            Collections.sort(twits, new SortByDate());
+            Collections.sort(twits, new SortByDateTwit());
             return twits;
             
             

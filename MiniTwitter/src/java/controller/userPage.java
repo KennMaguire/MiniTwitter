@@ -11,12 +11,15 @@ import business.User;
 import business.Follow;
 import business.Hashtag;
 import business.TweetHashtags;
+import business.UserTwit;
 import dataaccess.FollowDB;
 import dataaccess.HashtagDB;
 import dataaccess.TwitDB;
 import dataaccess.UserDB;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +29,15 @@ import javax.servlet.http.HttpSession;
  *
  * @author kennethmaguire
  */
+//allows me to sort UserTwit objects
+class SortByDateUserTwit implements Comparator<UserTwit> 
+{ 
+   
+    public int compare(UserTwit a, UserTwit b) 
+    { 
+        return b.getTwitDate().compareTo(a.getTwitDate()); 
+    } 
+}
 public class userPage extends HttpServlet {
 
     /**
@@ -174,12 +186,25 @@ public class userPage extends HttpServlet {
         if(action.equals("deleteTwit"))
         {
             Twit twit = new Twit();
-           // twit.setTwit(request.getParameter("twit"));
-           // twit.setTwitDate(request.getParameter("twitDate"));
+         
+            
             twit.setTwitID(request.getParameter("twitID"));
             twit = TwitDB.getTwitByID(twit.getTwitID());
-           // twit.setUserID(request.getParameter("userID"));
-            TwitDB.delete(twit);
+           //when deleting twit, we also need to delete all relevant tweethashtags, and decrement the count from hashtags
+            ArrayList<TweetHashtags> tweetHashtags = HashtagDB.searchByTweetID(twit.getTwitID());        //remove hashtags associated with tweet
+            if(!tweetHashtags.isEmpty())
+            {    for(int i=0; i < tweetHashtags.size(); i++)
+                {
+                    Hashtag hashtag = new Hashtag();
+                    hashtag = HashtagDB.searchByHashtagID(tweetHashtags.get(i).getHashtagID());     //get the hashtag for decrementing count
+                    int minusOne = Integer.parseInt(hashtag.getHashtagCount()) - 1;
+                    hashtag.setHashtagCount(Integer.toString(minusOne));
+                    HashtagDB.minusOne(hashtag);
+                }
+            
+                HashtagDB.delete(twit.getTwitID());            
+            }
+            TwitDB.delete(twit);        //always deletes tweet
            
             
         }
@@ -250,16 +275,30 @@ public class userPage extends HttpServlet {
             url = "/hashtag.jsp";
             ArrayList<TweetHashtags> tweetHashtags = new ArrayList<TweetHashtags>();
             tweetHashtags = HashtagDB.getHashtagTwits(hashtagID);          //get list of twitIDs with including specified hashtag
-            ArrayList<Twit> twits = new ArrayList<Twit>();
+            ArrayList<UserTwit> userTwits = new ArrayList<UserTwit>();
             for(int i = 0; i < tweetHashtags.size(); i++)                       
             {
                 Twit twit = new Twit();
                 twit = TwitDB.getTwitByID(tweetHashtags.get(i).getTweetID());
-                if(twit != null)
-                    twits.add(twit);
+                String userID = twit.getUserID();
+                User newUser = new User();
+                newUser = UserDB.searchByID(userID);
+                if(twit != null && newUser != null)
+                {
+                    UserTwit userTwit = new UserTwit();
+                    userTwit.setUserID(newUser.getUserID());
+                    userTwit.setFullName(newUser.getFullName());
+                    userTwit.setUserName(newUser.getUserName());
+                    userTwit.setTwitID(twit.getTwitID());
+                    userTwit.setTwit(twit.getTwit());
+                    userTwit.setTwitDate(twit.getTwitDate());
+                    userTwits.add(userTwit);
+                }
+                    
             }
-            request.setAttribute("twitsWHashtags", twits); //return all twits with the selected hashtag
             
+            Collections.sort(userTwits, new SortByDateUserTwit());
+            request.setAttribute("userTwits", userTwits);
             
             
             
