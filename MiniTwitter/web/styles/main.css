@@ -45,7 +45,7 @@ and open the template in the editor.
     text-overflow: ellipsis;
     margin-top: 1em;
     width: 20%;
-    height: 400px;
+    height: 490px;
     text-align: left;
     clear: left;
     
@@ -119,6 +119,7 @@ and open the template in the editor.
     top: 0px;
     left: 0px;
 }
+
 textarea{
  
     padding: 20px;
@@ -146,6 +147,10 @@ textarea{
     border: none;
     top: 15%;
     right: 8%;
+}
+#trends{
+    padding: 10px;
+    text-align: left;
 }
 #twit{
     font-family: "Times New Roman", Times;

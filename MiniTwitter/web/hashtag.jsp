@@ -19,6 +19,21 @@
         <title>MiniTwitter</title>
     </head>
     <body>
+         <div id='pagewrapTopLeft'>
+        
+          <h2> 
+            <c:out value="${user.fullName}" /> 
+          
+        </h2>
+            <p>
+               @<c:out value="${user.userName}" /> 
+            </p>
+            
+            <h3>
+                Number of twits: <c:out value="${twitNumber}" />
+            </h3>
+            
+      </div>
         <c:forEach var="tweet" items="${userTwits}" varStatus="status">
             <div id='MiddleTopPosts'>
                 

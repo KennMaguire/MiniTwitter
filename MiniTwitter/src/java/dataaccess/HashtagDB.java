@@ -187,6 +187,7 @@ public class HashtagDB {
         
     }
  //gets a single hashtag by its hashtagID
+ 
   public static Hashtag searchByHashtagID(String hashtagID) 
     {
          
@@ -231,6 +232,57 @@ public class HashtagDB {
         
         
     }
+ public static ArrayList<Hashtag> getTopHashtags()
+ {
+        ArrayList<Hashtag> hashtags = new ArrayList<Hashtag>();
+     
+        String sqlResult = "";
+        //https://stackoverflow.com/questions/4874731/how-can-i-select-the-top-10-largest-numbers-from-a-database-column-using-sql
+        String query = " SELECT * FROM twitterdb.hashtag ORDER BY hashtagCount DESC LIMIT 10";
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();          //exception for driver not found happens in connection pool
+         //get driver and connections
+        PreparedStatement preparedStmt = null;
+        try{
+       
+         preparedStmt = connection.prepareStatement(query);
+     
+         ResultSet rs = preparedStmt.executeQuery();
+         while(rs.next())
+         {
+             Hashtag hashtag = new Hashtag();
+             hashtag.setHashtagID(rs.getString("hashtagID"));
+             hashtag.setHashtagText(rs.getString("hashtagText"));
+             hashtag.setHashtagCount(rs.getString("hashtagCount"));
+             
+             
+             hashtags.add(hashtag);
+         }
+       
+         return hashtags;
+         
+         }
+        catch (SQLException e) {
+            sqlResult = "<p>Error executing the SQL statement: <br>"
+                    + e.getMessage() + "</p>";
+            return null;   //return false if failed to add
+        }
+        finally
+        {
+            DBUtil.closePreparedStatement(preparedStmt);
+            pool.freeConnection(connection);
+            
+            
+        }
+         
+         
+        
+     
+     
+     
+     
+     
+ }
  public static ArrayList<TweetHashtags> getHashtagTwits(String hashtagID) 
     {
          

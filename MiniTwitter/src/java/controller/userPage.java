@@ -125,7 +125,7 @@ public class userPage extends HttpServlet {
                 }
                 startInd = indexOf+1;
             }
-            
+            startInd = 0;
             while(twitPost.indexOf("#", startInd) != -1)
             {
                 int indexOf = twitPost.indexOf("#", startInd);
@@ -305,7 +305,11 @@ public class userPage extends HttpServlet {
         }
         
          ArrayList<Twit> twits= new ArrayList<Twit>();
+         ArrayList<Hashtag> topHashtags = new ArrayList<Hashtag>();
          twits = TwitDB.getUserTwits(foundUser);
+         topHashtags = HashtagDB.getTopHashtags();
+         session.setAttribute("topHashtags", topHashtags);
+         request.setAttribute("topHashtags", topHashtags);
          request.setAttribute("twitNumber", twits.size());
          session.setAttribute("twitNumber", twits.size());
          request.setAttribute("twits", twits);                  //gets all twits for user after each action

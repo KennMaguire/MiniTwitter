@@ -6,8 +6,10 @@
 package controller;
 
 import business.Follow;
+import business.Hashtag;
 import business.Twit;
 import business.User;
+import dataaccess.HashtagDB;
 import dataaccess.TwitDB;
 import dataaccess.UserDB;
 import java.io.*;
@@ -266,7 +268,7 @@ public class membershipServlet extends HttpServlet {
            session.setAttribute("user", null);
            ArrayList<Twit> twits= new ArrayList<Twit>();            //holds twits for user
            ArrayList<User> users = new ArrayList<User>();           //holds users for people you may know
-           
+           ArrayList<Hashtag> topHashtags = new ArrayList<Hashtag>();
            
            condition = false;
            url = "/login.jsp";
@@ -302,10 +304,13 @@ public class membershipServlet extends HttpServlet {
                         response.addCookie(c3);
                     }
                   twits = TwitDB.getUserTwits(userCheck);
+                  topHashtags = HashtagDB.getTopHashtags();
                   users = UserDB.getAllUsers();
                   Follow follow = new Follow();
                   users.remove(userCheck);
                   follow.whichUsersFollowed(users, userCheck);
+                  request.setAttribute("topHashtags", topHashtags);
+                  session.setAttribute("topHashtags", topHashtags);
                   session.setAttribute("users", users);
                   request.setAttribute("users", users);
                   request.setAttribute("user", userCheck);

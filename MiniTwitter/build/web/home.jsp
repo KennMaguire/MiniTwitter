@@ -66,7 +66,18 @@
       </div>
       
       <div id='pagewrapBottomLeft'>
-            <h2>Trends</h2>
+            <h2>Trending Hashtags</h2>
+            <table>
+                
+                <c:forEach var="hashtag" items="${topHashtags}">
+                <tr>
+                        
+                    <td id="trends"> <a href='userPage?action=getHashtags&amp;hashtagID=${hashtag.hashtagID}'><c:out value="${hashtag.hashtagText}"/></a> </td>
+                    <td id="trends"><c:out value="${hashtag.hashtagCount}"/> </td>
+                    
+                </c:forEach>
+                </tr>
+            </table>    
       </div>
             
       <div id='MiddleTopTwit'>
