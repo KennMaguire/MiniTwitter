@@ -181,6 +181,84 @@ public class UserDB {
          
         
     }
+    public static void changeLastLogin(User user)
+    {
+         String sqlResult = "";
+       
+       // load the driver, get connection
+       ConnectionPool pool = ConnectionPool.getInstance();
+       Connection connection = pool.getConnection();
+       PreparedStatement preparedStmt = null;
+        try {
+            
+            //create query
+            String query = " Update twitterdb.user set lastLogin = ? where (userID = ?) "; 
+                    
+                             //1, 2, 3, 4, 5, 6, 7  
+            //Create a prepared statement
+            preparedStmt = connection.prepareStatement(query);
+            preparedStmt.setString(1, user.getLastLogin());
+            preparedStmt.setString(2, user.getUserID());
+            preparedStmt.execute();
+            
+            
+            connection.close();
+       
+    }
+    catch (SQLException e) {
+            sqlResult = "<p>Error executing the SQL statement: <br>"
+                    + e.getMessage() + "</p>";
+           
+     }
+     finally
+     {
+        DBUtil.closePreparedStatement(preparedStmt);
+        pool.freeConnection(connection);
+            
+            
+     }   
+    
+    }
+    public static String getLastLogin(User user)
+    {
+        String sqlResult = "";
+       String lastLogin = "";
+       // load the driver, get connection
+       ConnectionPool pool = ConnectionPool.getInstance();
+       Connection connection = pool.getConnection();
+       PreparedStatement preparedStmt = null;
+        try {
+            
+            //create query
+            String query = " select lastLogin from twitterdb.user where (userID = ?)";
+                             //1, 2, 3, 4, 5, 6, 7  
+            //Create a prepared statement
+            preparedStmt = connection.prepareStatement(query);
+            preparedStmt.setString(1, user.getUserID());
+            ResultSet rs = preparedStmt.executeQuery();
+            while(rs.next())
+            {
+                lastLogin = rs.getString("lastLogin");
+                return lastLogin;
+            }
+            
+            return null;
+            
+       
+    }
+    catch (SQLException e) {
+            sqlResult = "<p>Error executing the SQL statement: <br>"
+                    + e.getMessage() + "</p>";
+            return null;   //return false if failed to add
+     }
+     finally
+     {
+        DBUtil.closePreparedStatement(preparedStmt);
+        pool.freeConnection(connection);
+            
+            
+     }   
+    }
     public static User searchByID(String userID) 
     {
          

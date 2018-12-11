@@ -25,6 +25,7 @@ public class User implements Serializable {
     private String questionNo;
     private String answer;
     private String salt;
+    private String lastLogin;
     private boolean followed;
     public User()
     {
@@ -145,7 +146,14 @@ public class User implements Serializable {
     {
         return this.salt;
     }
-    
+    public void setLastLogin(String lastLogin)
+    {
+        this.lastLogin = lastLogin;
+    }
+    public String getLastLogin()
+    {
+        return this.lastLogin;
+    }
     public void setFollowed(boolean followed)
     {
         this.followed = followed;

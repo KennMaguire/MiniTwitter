@@ -7,14 +7,18 @@ package controller;
 
 import business.Follow;
 import business.Hashtag;
+import business.Notifications;
 import business.Twit;
 import business.User;
+import dataaccess.FollowDB;
 import dataaccess.HashtagDB;
 import dataaccess.TwitDB;
 import dataaccess.UserDB;
 import java.io.*;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Random;
 import javax.mail.MessagingException;
 import javax.servlet.ServletException;
@@ -25,6 +29,16 @@ import murach.util.CookieUtil;
 import murach.util.MailUtilGmail;
 import util.HashPasswordUtil;
 
+
+class SortByDateNotifications implements Comparator<Notifications>
+    {
+        @Override
+        public int compare(Notifications a, Notifications b)
+        {
+            return b.getNotifyDate().compareTo(a.getNotifyDate());
+        }
+        
+    }
 
 @WebServlet(name = "membershipServlet", urlPatterns = {"/membership"})
 public class membershipServlet extends HttpServlet {
@@ -48,7 +62,7 @@ public class membershipServlet extends HttpServlet {
         return url;
 
     }
-
+    
    @Override
    protected void doPost(HttpServletRequest request, HttpServletResponse response)
            throws ServletException, IOException {
@@ -287,6 +301,9 @@ public class membershipServlet extends HttpServlet {
            if(userCheck != null && userCheck.getEmail().equals(email) && userCheck.getPassword().equals(saltAndHashedPassword)) 
            {
                   
+                   
+               
+               
 
                    if(rememberMe != null)
                     {
@@ -303,14 +320,86 @@ public class membershipServlet extends HttpServlet {
                         c3.setPath("/");                      // allow entire app to access it
                         response.addCookie(c3);
                     }
+                   
+                   
+                  //getLastLogin from before
+                  //set new lastLogin
+                  String lastLogin = UserDB.getLastLogin(userCheck);
+                  
+                  
+                  ArrayList<Twit> notifyTwits = new ArrayList<Twit>();
+                  ArrayList<Follow> notifyFollow = new ArrayList<Follow>();
+                  ArrayList<User> followUsers = new ArrayList<User>();
+                  notifyTwits = TwitDB.getMentionNotifications(lastLogin, userCheck.getUserName());
+                  
+                  //get user name along with twit so they know hwo posted it
+                  notifyFollow = FollowDB.getFollowNotifications(lastLogin, userCheck.getUserID());
+                  
+                  ArrayList<Notifications> notifications = new ArrayList<Notifications>();
+                  
+                  for(int i=0; i < notifyFollow.size(); i++)        //add un and follows to notifications for extra credit
+                  {
+                      Notifications notification = new Notifications();
+                      User followUser = new User();
+                      Follow follow = new Follow();
+                      followUser = UserDB.searchByID(notifyFollow.get(i).getUserID());
+                      notification.setUserName(followUser.getUserName());
+                      follow = notifyFollow.get(i);
+                      notification.setNotifyDate(follow.getDateFollowed());
+                      notification.setFollow(follow);
+                      notifications.add(notification);
+                      /*
+                      User followUser = new User();
+                      followUser = UserDB.searchByID(notifyFollow.get(i).getUserID());
+                      followUsers.add(followUser);
+                      */
+                  }
+                  for(int i=0; i < notifyTwits.size(); i++)
+                  {
+                      Notifications notification = new Notifications();
+                      Twit twit = new Twit();
+                      twit = notifyTwits.get(i);
+                      notification.setTwit(twit);
+                      notification.setNotifyDate(twit.getTwitDate());
+                      notifications.add(notification);
+                      
+                      
+                  }
+                  Collections.sort(notifications, new SortByDateNotifications());
+                  
+                  
+                  
+                  session.setAttribute("notifications", notifications);
+                  
+                  //session.setAttribute("notifyTwits", notifyTwits);
+                  //session.setAttribute("notifyFollows", followUsers);
+                  
+                  
+                  //getting the date
+                  java.util.Date dt = new java.util.Date();   //found at https://stackoverflow.com/questions/2400955/how-to-store-java-date-to-mysql-datetime
+                  
+                  java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                  String currentTime = sdf.format(dt); 
+                  
+                  userCheck.setLastLogin(currentTime);
+                  UserDB.changeLastLogin(userCheck);
                   twits = TwitDB.getUserTwits(userCheck);
                   topHashtags = HashtagDB.getTopHashtags();
                   users = UserDB.getAllUsers();
                   Follow follow = new Follow();
+                  int numFollowed = 0;
+                  int numFollowing = 0;
                   users.remove(userCheck);
-                  follow.whichUsersFollowed(users, userCheck);
+                  numFollowing = follow.whichUsersFollowing(users, userCheck);
+                  numFollowed = follow.whichUsersFollowed(users, userCheck);
+                  
+                  //set all request and session attribute necessary for home.jsp
                   request.setAttribute("topHashtags", topHashtags);
                   session.setAttribute("topHashtags", topHashtags);
+                  request.setAttribute("numFollowed", numFollowed);
+                  session.setAttribute("numFollowed", numFollowed);
+                  request.setAttribute("numFollowing", numFollowing);
+                  session.setAttribute("numFollowing", numFollowing);
                   session.setAttribute("users", users);
                   request.setAttribute("users", users);
                   request.setAttribute("user", userCheck);

@@ -83,6 +83,47 @@ public class FollowDB {
         return true;
         
     }
+    public static ArrayList<Follow> getFollowNotifications(String lastLogin, String userID)
+    {
+        String sqlResult = "";
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement preparedStmt = null;
+        ArrayList<Follow> follows = new ArrayList<Follow>();
+        try{
+            String query = "Select * from twitterdb.Follow where (followUserID = ? AND dateFollowed > ?)";
+            preparedStmt = connection.prepareStatement(query);
+            preparedStmt.setString(1, userID);
+            preparedStmt.setString(2, lastLogin);
+            ResultSet rs = preparedStmt.executeQuery();
+            
+            while(rs.next())
+            {
+                Follow follow = new Follow();
+                follow.setUserID(rs.getString("userID"));
+                follow.setFollowUserID(rs.getString("followUserID"));
+                follow.setDateFollowed(rs.getString("dateFollowed"));
+                follows.add(follow);
+            }
+        return follows; 
+        }
+        catch(SQLException e){
+           sqlResult = "<p>Error executing the SQL statement: <br>"
+                    + e.getMessage() + "</p>";
+           return null; 
+        }
+        finally
+        {
+            DBUtil.closePreparedStatement(preparedStmt);
+            pool.freeConnection(connection);
+            
+            
+        }
+        
+      
+        
+    }
+    
     public static ArrayList<Follow> getFollows(User user)
     {
         String sqlResult = "";
@@ -92,6 +133,45 @@ public class FollowDB {
         ArrayList<Follow> follows = new ArrayList<Follow>();
         try{
             String query = "Select * from twitterdb.Follow where userID = ?";
+            preparedStmt = connection.prepareStatement(query);
+            preparedStmt.setString(1, user.getUserID());
+            ResultSet rs = preparedStmt.executeQuery();
+            
+            while(rs.next())
+            {
+                Follow follow = new Follow();
+                follow.setUserID(rs.getString("userID"));
+                follow.setFollowUserID(rs.getString("followUserID"));
+                follow.setDateFollowed(rs.getString("dateFollowed"));
+                follows.add(follow);
+            }
+            
+        }
+        catch(SQLException e){
+           sqlResult = "<p>Error executing the SQL statement: <br>"
+                    + e.getMessage() + "</p>";
+           return null; 
+        }
+        finally
+        {
+            DBUtil.closePreparedStatement(preparedStmt);
+            pool.freeConnection(connection);
+            
+            
+        }
+        
+      return follows;
+        
+    }
+    public static ArrayList<Follow> getFollowedBy(User user)
+    {
+        String sqlResult = "";
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement preparedStmt = null;
+        ArrayList<Follow> follows = new ArrayList<Follow>();
+        try{
+            String query = "Select * from twitterdb.Follow where followUserID = ?";
             preparedStmt = connection.prepareStatement(query);
             preparedStmt.setString(1, user.getUserID());
             ResultSet rs = preparedStmt.executeQuery();

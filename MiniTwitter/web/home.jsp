@@ -32,7 +32,7 @@
             
         <div id="userRecommend">
                     <h3 id="twit"><c:out value="${users.fullName}" /></h3>
-                    <p>@<c:out value="${users.userName}" /></p> 
+                    <p id="altUN">@<c:out value="${users.userName}" /></p> 
                
                     <c:choose>
                         <c:when test="${users.followed}">
@@ -55,14 +55,19 @@
             <c:out value="${user.fullName}" /> 
           
         </h2>
-            <p>
+            <p id="username">
                @<c:out value="${user.userName}" /> 
             </p>
             
-            <h3>
-                Number of twits: <c:out value="${twitNumber}" />
+            <h3 id="nums">
+                Twits: <c:out value="${twitNumber}" />
             </h3>
-            
+            <h3 id="nums">
+                Following: <c:out value="${numFollowed}" />
+            </h3>
+            <h3 id="nums">
+                Followed By: <c:out value="${numFollowing}" />
+            </h3>
       </div>
       
       <div id='pagewrapBottomLeft'>
@@ -82,12 +87,12 @@
             
       <div id='MiddleTopTwit'>
             <form action='userPage' method="post">
-            <div id='twitBox'>
+           
                 <input hidden name='action' value='postTwit'>
                 <h3>Twit</h3>
                 <textarea name='twit' cols='30' rows='5' maxlength='280'></textarea><br>
                 <input type='submit' value='Post'>
-            </div>
+            
             </form>
             
       </div>   

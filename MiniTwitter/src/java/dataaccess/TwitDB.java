@@ -118,6 +118,52 @@ public class TwitDB {
         
                 
     }
+    public static ArrayList<Twit> getMentionNotifications(String lastLogin, String username)
+    {
+        ArrayList<Twit> twits = new ArrayList<Twit>();
+        String sqlResult = "";
+        String query = " select * from twitterdb.twits where (twit like ? AND twitDate > ?) ";      //get twits with matching mention and date after last Login
+        
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();          //exception for driver not found happens in connection pool
+         //get driver and connections
+        PreparedStatement preparedStmt = null;
+        
+        try
+        {
+            preparedStmt = connection.prepareStatement(query);
+            preparedStmt.setString(1, "%" + "@" + username + " %"); 
+            preparedStmt.setString(2, lastLogin);
+            ResultSet rs = preparedStmt.executeQuery();
+            
+            while(rs.next())
+            {
+               Twit twit = new Twit();
+               twit.setUserID(rs.getString("userID"));
+               User referenceUser = UserDB.searchByID(twit.getUserID());
+               twit.setTwit("posted by @" + referenceUser.getUserName() + ": <br /> <br />" + rs.getString("twit"));
+               twit.setTwitDate(rs.getString("twitDate"));
+               twit.setTwitID(rs.getString("twitID"));
+               twits.add(twit);
+            }
+            return twits;
+            
+        }
+        catch(SQLException e)
+        {
+            sqlResult = "<p>Error executing the SQL statement: <br>"
+                    + e.getMessage() + "</p>";
+            return null;   //return false if failed to add  
+        }
+        finally
+        {
+            DBUtil.closePreparedStatement(preparedStmt);
+            pool.freeConnection(connection);
+            
+            
+        }
+        
+    }
     public static Twit getTwitByDate(String twitDate)
     {
         Twit twit = new Twit();

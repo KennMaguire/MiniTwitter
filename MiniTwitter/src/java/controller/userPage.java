@@ -32,7 +32,7 @@ import javax.servlet.http.HttpSession;
 //allows me to sort UserTwit objects
 class SortByDateUserTwit implements Comparator<UserTwit> 
 { 
-   
+    @Override
     public int compare(UserTwit a, UserTwit b) 
     { 
         return b.getTwitDate().compareTo(a.getTwitDate()); 
@@ -229,9 +229,15 @@ public class userPage extends HttpServlet {
             follow.setFollowUserID(followUserID); 
             follow.setDateFollowed(currentTime);
             FollowDB.insert(follow);
-            
-            follow.whichUsersFollowed(users, foundUser);
-            
+            int numFollowing = 0;
+            numFollowing = follow.whichUsersFollowing(users, foundUser);
+            int numFollowed = 0;
+            numFollowed = follow.whichUsersFollowed(users, foundUser);
+         
+            request.setAttribute("numFollowing", numFollowing);
+            session.setAttribute("numFollowing", numFollowing);
+            request.setAttribute("numFollowed", numFollowed);
+            session.setAttribute("numFollowed", numFollowed);
             session.setAttribute("users",users); //have to set users again since follow is updated
             request.setAttribute("users",users);
             
@@ -257,9 +263,15 @@ public class userPage extends HttpServlet {
             follow.setFollowUserID(followUserID); 
             follow.setDateFollowed(currentTime);
             FollowDB.delete(follow);
+            int numFollowing = 0;
+            numFollowing = follow.whichUsersFollowing(users, foundUser);
+            int numFollowed = 0;
+            numFollowed = follow.whichUsersFollowed(users, foundUser);
             
-            follow.whichUsersFollowed(users, foundUser);
-            
+            request.setAttribute("numFollowing", numFollowing);
+            session.setAttribute("numFollowing", numFollowing);
+            request.setAttribute("numFollowed", numFollowed);       //return number of user Followed
+            session.setAttribute("numFollowed", numFollowed);
             session.setAttribute("users",users); //have to set users again since follow is updated
             request.setAttribute("users",users);
            
