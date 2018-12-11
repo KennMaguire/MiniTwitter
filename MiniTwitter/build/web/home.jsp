@@ -71,7 +71,7 @@
       </div>
       
       <div id='pagewrapBottomLeft'>
-            <h2>Trending Hashtags</h2>
+            <h2>Trending Topics</h2>
             <table>
                 
                 <c:forEach var="hashtag" items="${topHashtags}">

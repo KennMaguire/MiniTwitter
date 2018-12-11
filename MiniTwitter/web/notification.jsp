@@ -69,7 +69,7 @@
       </div>
       
       <div id='pagewrapBottomLeft'>
-            <h2>Trending Hashtags</h2>
+            <h2>Trending Topics</h2>
             <table>
                 
                 <c:forEach var="hashtag" items="${topHashtags}">
@@ -84,7 +84,7 @@
       </div>
     
     <div id='MiddleTopPosts'>
-        <h1> Notifications </h1>
+        <h1 id ="FormHead2"> Notifications </h1>
         <c:forEach var="notification" items="${notifications}">
             
             <c:if test="${!empty notification.twit}">

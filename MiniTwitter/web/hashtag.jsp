@@ -67,7 +67,7 @@
             </h3>
       </div>
       <div id='pagewrapBottomLeft'>
-            <h2>Trending Hashtags</h2>
+            <h2>Trending Topics</h2>
             <table>
                 
                 <c:forEach var="hashtag" items="${topHashtags}">
@@ -80,8 +80,10 @@
                 </tr>
             </table>    
       </div>
+       <div id='MiddleTopPosts'>   
+        <h1 id ="FormHead2"> Hashtags </h1>
         <c:forEach var="tweet" items="${userTwits}" varStatus="status">
-            <div id='MiddleTopPosts'>
+           
                 
                 <div id="twitPosts">
                     <h3 id="twit"><c:out value="${tweet.fullName}" /></h3>
@@ -89,9 +91,10 @@
                     <p id="twit">${tweet.twit}</p>
                 </div>
                     
-            </div> 
+            
             
             
         </c:forEach>
+        </div> 
     </body>
 </html>

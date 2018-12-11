@@ -28,7 +28,7 @@ and open the template in the editor.
     
     <body>
         <div id="pagewrapMiddle">
-        <h1 id ="FormHead">Sign Up for MiniTwitter!</h1>
+        <h1 id ="FormHead">Edit your profile</h1>
        
         <form action="membership" method="post" onsubmit="return validateForm()">  <!--Change Registration in this line to give another page submission -->
             <div id="errorMessage" class="notVisible"></div>
