@@ -32,11 +32,11 @@
                
                     <c:choose>
                         <c:when test="${users.followed}">
-                            <a href="userPage?action=unfollow&amp;followUserID='${users.userID}'" ><button>Unfollow</button></a>
+                            <a href="userPage?action=unfollow&amp;followUserID='${users.userID}'" ><button id="followButton">Unfollow</button><br/></a>
                         </c:when>
                         <c:otherwise>
                             <!--<input type="hidden" name="action" value="follow">-->
-                            <a href="userPage?action=follow&amp;followUserID='${users.userID}'" ><button>Follow</button></a>
+                            <a href="userPage?action=follow&amp;followUserID='${users.userID}'" ><button id="followButton">Follow</button><br/></a>
                         </c:otherwise>
                         
                     </c:choose>

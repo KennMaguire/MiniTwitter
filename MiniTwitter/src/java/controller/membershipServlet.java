@@ -10,6 +10,7 @@ import business.Hashtag;
 import business.Notifications;
 import business.Twit;
 import business.User;
+import business.UserTwit;
 import dataaccess.FollowDB;
 import dataaccess.HashtagDB;
 import dataaccess.TwitDB;
@@ -19,7 +20,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 import javax.mail.MessagingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -287,23 +290,23 @@ public class membershipServlet extends HttpServlet {
            condition = false;
            url = "/login.jsp";
            String saltAndHashedPassword = "";
-           String salt = userCheck.getSalt();
-           try{
-                    
-              saltAndHashedPassword = HashPasswordUtil.hashPassword(password + salt); //use salt plus password to get hashed value in DB        
-           }
-           catch(NoSuchAlgorithmException ex)
-           {
-               saltAndHashedPassword = ex.getMessage();
-           }
            
+           if(userCheck != null)        //check if user is null, if not, salt and hash password to confirm
+           {
+               String salt = userCheck.getSalt();
+                try{
+                    
+                    saltAndHashedPassword = HashPasswordUtil.hashPassword(password + salt); //use salt plus password to get hashed value in DB        
+                }
+                 catch(NoSuchAlgorithmException ex)
+                {
+                    saltAndHashedPassword = ex.getMessage();
+                }
+           }
            //need to check if user is null, email is the same email, and the hash value matches the one stored in the DB for password
            if(userCheck != null && userCheck.getEmail().equals(email) && userCheck.getPassword().equals(saltAndHashedPassword)) 
            {
-                  
-                   
-               
-               
+                
 
                    if(rememberMe != null)
                     {
@@ -332,6 +335,8 @@ public class membershipServlet extends HttpServlet {
                   ArrayList<User> followUsers = new ArrayList<User>();
                   notifyTwits = TwitDB.getMentionNotifications(lastLogin, userCheck.getUserName());
                   
+                  
+                  
                   //get user name along with twit so they know hwo posted it
                   notifyFollow = FollowDB.getFollowNotifications(lastLogin, userCheck.getUserID());
                   
@@ -356,19 +361,26 @@ public class membershipServlet extends HttpServlet {
                   }
                   for(int i=0; i < notifyTwits.size(); i++)
                   {
-                      Notifications notification = new Notifications();
+                      Notifications notification = new Notifications();             //use notifications class for sorting later
+                      UserTwit userTwit = new UserTwit();
                       Twit twit = new Twit();
                       twit = notifyTwits.get(i);
-                      notification.setTwit(twit);
-                      notification.setNotifyDate(twit.getTwitDate());
+                      User twitUser = new User();
+                      twitUser = UserDB.searchByID(twit.getUserID());
+                      userTwit.setFullName(twitUser.getFullName());
+                      userTwit.setUserID(twitUser.getUserID());
+                      userTwit.setUserName(twitUser.getUserName());
+                      userTwit.setTwit(twit.getTwit());
+                      userTwit.setTwitDate(twit.getTwitDate());
+                      userTwit.setTwitID(twit.getTwitID());
+                      
+                      notification.setUserTwit(userTwit);
+                      notification.setNotifyDate(userTwit.getTwitDate());
                       notifications.add(notification);
                       
                       
                   }
-                  Collections.sort(notifications, new SortByDateNotifications());
-                  
-                  
-                  
+                  Collections.sort(notifications, new SortByDateNotifications());       //sort before setting for request
                   session.setAttribute("notifications", notifications);
                   
                   //session.setAttribute("notifyTwits", notifyTwits);
@@ -383,7 +395,35 @@ public class membershipServlet extends HttpServlet {
                   
                   userCheck.setLastLogin(currentTime);
                   UserDB.changeLastLogin(userCheck);
-                  twits = TwitDB.getUserTwits(userCheck);
+                  
+                  
+                  
+                  twits = TwitDB.getAllTwits(userCheck);
+                  
+                  ArrayList<UserTwit> userTwits = new ArrayList<UserTwit>();
+                  int total = 0;
+                  for(int i=0; i<twits.size(); i++)
+                  { 
+                      UserTwit userTwit = new UserTwit();       //get all the twits in the format of userTwit
+                      User user = new User();
+                      
+                      user = UserDB.searchByID(twits.get(i).getUserID());
+                      
+                      if(user.getUserID().equals(userCheck.getUserID()))
+                      {
+                          total += 1;
+                      }
+                      //using UserTwit class so the correct username and fullname is displayed
+                      userTwit.setFullName(user.getFullName());
+                      userTwit.setUserID(user.getUserID());
+                      userTwit.setUserName(user.getUserName());
+                      userTwit.setTwit(twits.get(i).getTwit());
+                      userTwit.setTwitDate(twits.get(i).getTwitDate());
+                      userTwit.setTwitID(twits.get(i).getTwitID());  
+                      userTwits.add(userTwit);
+                 
+                  }
+                  
                   topHashtags = HashtagDB.getTopHashtags();
                   users = UserDB.getAllUsers();
                   Follow follow = new Follow();
@@ -403,11 +443,11 @@ public class membershipServlet extends HttpServlet {
                   session.setAttribute("users", users);
                   request.setAttribute("users", users);
                   request.setAttribute("user", userCheck);
-                  request.setAttribute("twits", twits);
                   session.setAttribute("user", userCheck);
-                  session.setAttribute("twits", twits);
-                  request.setAttribute("twitNumber", twits.size());
-                  session.setAttribute("twitNumber", twits.size());
+                  request.setAttribute("twits", userTwits);
+                  session.setAttribute("twits", userTwits);
+                  request.setAttribute("twitNumber", total);
+                  session.setAttribute("twitNumber", total);
                   url = "/home.jsp";
 
 

@@ -91,11 +91,15 @@ and open the template in the editor.
                 </tr>
                 
                 <tr>
-                    <td> <input type="submit" class="FormInputSubmit" name="registerAcct" value="Submit"><br> </td>
+                    <td> <input type="submit" class="FormInputSubmit" name="registerAcct" value="Submit"> <br/></td>
+                    <td> Already have an account? <a href="login.jsp"> Login></a></td>
                 </tr>
             </table>
+               
         </form>
+                
         </div>
+                
     </body>
     
 </html>

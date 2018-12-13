@@ -5,9 +5,9 @@
  */
 package dataaccess;
 
+import business.Follow;
 import business.Twit;
 import business.User;
-import business.UserTwit;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -211,12 +211,16 @@ public class TwitDB {
         
                 
     }
-    public static ArrayList<Twit> getUserTwits(User user)
+    public static ArrayList<Twit> getAllTwits(User user)        //gets twits for the user from all mentions and anyone they follow
     {
         ArrayList<Twit> twits = new ArrayList<Twit>();
+        ArrayList<Follow> follows = new ArrayList<Follow>();    //used to store user's followers
         String sqlResult = "";
-        String query1 = " select * from twitterdb.twits where (userID = ?) ";
-        String query2 = " select * from twitterdb.twits where twit like ? ";
+        String query1 = " select * from twitterdb.twits where (userID = ?) ";   //get users twits and later follower twits
+        String query2 = " select * from twitterdb.twits where twit like ? ";    //get users mention
+        
+        follows = FollowDB.getFollows(user);
+        
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();          //exception for driver not found happens in connection pool
          //get driver and connections
@@ -239,6 +243,22 @@ public class TwitDB {
                twits.add(twit);
             }
             
+            for(int i=0; i<follows.size(); i++)     //get twits from the users the current user is following
+            {
+                preparedStmt.setString(1, follows.get(i).getFollowUserID());
+                rs = preparedStmt.executeQuery();
+                while(rs.next())
+                {
+                    Twit twit = new Twit();
+                    twit.setUserID(rs.getString("userID"));
+                    twit.setTwit(rs.getString("twit"));
+                    twit.setTwitDate(rs.getString("twitDate"));
+                    twit.setTwitID(rs.getString("twitID"));
+                    twits.add(twit);
+                }
+            }
+            
+           
             preparedStmt = connection.prepareStatement(query2);
             preparedStmt.setString(1, "%" + "@" + user.getUserName() + " %"); //included the " " to prevent getting users with similar names
             rs = preparedStmt.executeQuery();
@@ -252,6 +272,8 @@ public class TwitDB {
                twit.setTwitID(rs.getString("twitID"));
                twits.add(twit);
             }
+           
+         
             Collections.sort(twits, new SortByDateTwit());
             return twits;
             

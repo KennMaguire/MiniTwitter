@@ -31,11 +31,11 @@
                
                     <c:choose>
                         <c:when test="${users.followed}">
-                            <a href="userPage?action=unfollow&amp;followUserID='${users.userID}'" ><button>Unfollow</button></a>
+                            <a href="userPage?action=unfollow&amp;followUserID='${users.userID}'" ><button id="followButton">Unfollow</button><br/></a>
                         </c:when>
                         <c:otherwise>
                             <!--<input type="hidden" name="action" value="follow">-->
-                            <a href="userPage?action=follow&amp;followUserID='${users.userID}'" ><button>Follow</button></a>
+                            <a href="userPage?action=follow&amp;followUserID='${users.userID}'" ><button id="followButton">Follow</button><br/></a>
                         </c:otherwise>
                         
                     </c:choose>
@@ -87,13 +87,13 @@
         <h1 id ="FormHead2"> Notifications </h1>
         <c:forEach var="notification" items="${notifications}">
             
-            <c:if test="${!empty notification.twit}">
+            <c:if test="${!empty notification.userTwit}">
                 <h3>Tweet</h3>
             <div id='twitPosts'>
                 
-                <h3 id="twit"><c:out value="${user.fullName}" /></h3>
-                <h3 id="twit">@<c:out value="${user.userName}" />: <p id="twitDate"> <c:out value="${notification.twit.twitDate}" /> </p></h3>
-                <p id="twit">${notification.twit.twit}</p>
+                <h3 id="twit"><c:out value="${notification.userTwit.fullName}" /></h3>
+                <h3 id="twit">@<c:out value="${notification.userTwit.userName}" />: <p id="twitDate"> <c:out value="${notification.userTwit.twitDate}" /> </p></h3>
+                <p id="twit">${notification.userTwit.twit}</p>
            
             </div>
             </c:if>

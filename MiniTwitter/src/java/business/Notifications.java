@@ -11,7 +11,7 @@ package business;
  */
 public class Notifications {
     private Follow follow;
-    private Twit twit;
+    private UserTwit userTwit;
     private String username;
     private String notifyDate;
     
@@ -24,13 +24,13 @@ public class Notifications {
     {
         return this.follow;
     }
-    public void setTwit(Twit twit)
+    public void setUserTwit(UserTwit userTwit)
     {
-        this.twit = twit;
+        this.userTwit = userTwit;
     }
-    public Twit getTwit()
+    public UserTwit getUserTwit()
     {
-        return this.twit;
+        return this.userTwit;
     }
     public void setUserName(String username)
     {

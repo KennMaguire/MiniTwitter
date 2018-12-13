@@ -318,14 +318,36 @@ public class userPage extends HttpServlet {
         
          ArrayList<Twit> twits= new ArrayList<Twit>();
          ArrayList<Hashtag> topHashtags = new ArrayList<Hashtag>();
-         twits = TwitDB.getUserTwits(foundUser);
+         twits = TwitDB.getAllTwits(foundUser);
+         ArrayList<UserTwit> userTwits = new ArrayList<UserTwit>();
+         int total = 0;
+         
+         for(int i=0; i<twits.size(); i++)
+         {
+             UserTwit userTwit = new UserTwit();       //get all the twits in the format of userTwit for username and fullname
+             
+             user = UserDB.searchByID(twits.get(i).getUserID());
+             if(user.getUserID().equals(foundUser.getUserID()))
+             {
+                 total += 1;
+             }
+             
+             userTwit.setFullName(user.getFullName());
+             userTwit.setUserID(user.getUserID());
+             userTwit.setUserName(user.getUserName());
+             userTwit.setTwit(twits.get(i).getTwit());
+             userTwit.setTwitDate(twits.get(i).getTwitDate());
+             userTwit.setTwitID(twits.get(i).getTwitID());
+             userTwits.add(userTwit);
+         }
          topHashtags = HashtagDB.getTopHashtags();
+         
          session.setAttribute("topHashtags", topHashtags);
          request.setAttribute("topHashtags", topHashtags);
-         request.setAttribute("twitNumber", twits.size());
-         session.setAttribute("twitNumber", twits.size());
-         request.setAttribute("twits", twits);                  //gets all twits for user after each action
-         session.setAttribute("twits", twits);
+         request.setAttribute("twitNumber", total);
+         session.setAttribute("twitNumber", total);
+         request.setAttribute("twits", userTwits);                  //gets all twits for user after each action
+         session.setAttribute("twits", userTwits);
             
           getServletContext()
             .getRequestDispatcher(url)

@@ -78,7 +78,8 @@ and open the template in the editor.
     top: 0%;
     width: 30%;
     text-align: left;
-     
+    
+    
     padding: 20px;
 }
 #TopRightUsers{
@@ -140,8 +141,10 @@ textarea{
     font-size: 8px;
     display: inline-block;
     position: absolute;
-    background-color: rgba(144, 145, 227, 0.1);
-    border: none;
+    
+    border-radius: 2px;
+    background-color: rgba(144, 145, 227, 0.3);
+    
     top: 15%;
     right: 8%;
 }
@@ -150,10 +153,49 @@ textarea{
     display: inline-block;
     cursor: pointer;
     position: absolute;
-    background-color: rgba(144, 145, 227, 0.5);
-    border: none;
-    top: 15%;
-    right: 8%;
+  
+    border-radius: 2px;
+    background-color: rgba(144, 145, 227, 0.8);
+  
+    
+}
+#postButton{
+    font-size: 11px;
+    border: 1px solid black;
+    border-radius: 2px;
+    background-color: rgba(144, 145, 227, 0.3);
+    
+    
+}
+#postButton:hover{
+    font-size: 11px;
+    cursor: pointer;
+    border: 1px solid black;
+    border-radius: 2px;
+    background-color: rgba(144, 145, 227, 0.8);
+    
+    
+}
+#followButton{
+    font-size: 10px;
+    display: inline-block;
+    position: absolute;
+    
+    border-radius: 2px;
+    background-color: rgba(200, 145, 227, 0.3);
+    
+    
+}
+#followButton:hover{
+    font-size: 10px;
+    display: inline-block;
+    cursor: pointer;
+    position: absolute;
+   
+    border-radius: 2px;
+    background-color: rgba(200, 145, 227, 0.8);
+    
+    
 }
 #username{
     font-size: 110%;
@@ -192,7 +234,10 @@ textarea{
     padding: 20px;
     border-radius: 5px;
     border: 1px solid black;
+    overflow: scroll;
+    
 }
+
 .blueX{
     color: blue;
     

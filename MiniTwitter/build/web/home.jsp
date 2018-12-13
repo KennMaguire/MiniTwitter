@@ -36,11 +36,11 @@
                
                     <c:choose>
                         <c:when test="${users.followed}">
-                            <a href="userPage?action=unfollow&amp;followUserID='${users.userID}'" ><button>Unfollow</button></a>
+                            <a href="userPage?action=unfollow&amp;followUserID='${users.userID}'" ><button id="followButton">Unfollow</button><br/></a>
                         </c:when>
                         <c:otherwise>
                             <!--<input type="hidden" name="action" value="follow">-->
-                            <a href="userPage?action=follow&amp;followUserID='${users.userID}'" ><button>Follow</button></a>
+                            <a href="userPage?action=follow&amp;followUserID='${users.userID}'" ><button id="followButton">Follow</button><br/></a>
                         </c:otherwise>
                         
                     </c:choose>
@@ -91,7 +91,7 @@
                 <input hidden name='action' value='postTwit'>
                 <h3>Twit</h3>
                 <textarea name='twit' cols='30' rows='5' maxlength='280'></textarea><br>
-                <input type='submit' value='Post'>
+                <input id="postButton" type='submit' value='Post'>
             
             </form>
             
@@ -101,11 +101,17 @@
     <c:forEach var="twit" items="${twits}">
     <div id='MiddleTopPosts'>
         
+        
         <div id="twitPosts">
-             <h3 id="twit"><c:out value="${user.fullName}" /></h3>
-             <h3 id="twit">@<c:out value="${user.userName}" />: <p id="twitDate"> <c:out value="${twit.twitDate}" /> </p></h3> 
+        
+            
+             <h3 id="twit"><c:out value="${twit.fullName}" /></h3>
+             <h3 id="twit">@<c:out value="${twit.userName}" />: <p id="twitDate"> <c:out value="${twit.twitDate}" /> </p></h3> 
              <p id="twit">${twit.twit}</p>
-             <a id="deleteButton" href="userPage?action=deleteTwit&amp;twitID=${twit.twitID}">Delete</a>
+            <c:if test="${user.userID == twit.userID}">
+             <a  href="userPage?action=deleteTwit&amp;twitID=${twit.twitID}"><button id="deleteButton">Delete</button></a>
+            </c:if>
+            
         </div>
        
     </div> 
